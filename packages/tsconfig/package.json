@@ -1,0 +1,7 @@
+{
+  "name": "@eventvalley/tsconfig",
+  "version": "1.0.0",
+  "files": [
+    "tsconfig.json"
+  ]
+}

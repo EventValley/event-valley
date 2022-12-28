@@ -1,0 +1,29 @@
+{
+  "name": "eventvalley",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "predev": "dotenv-checker --schema .env.schema --env .env.local"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/EventValley/eventvalley.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/EventValley/eventvalley/issues"
+  },
+  "homepage": "https://github.com/EventValley/eventvalley#readme",
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "devDependencies": {
+    "turbo": "1.6.3",
+    "dotenv-checker": "1.1.5",
+    "prettier": "2.8.1"
+  }
+}

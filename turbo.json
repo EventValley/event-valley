@@ -1,0 +1,13 @@
+{
+  "globalDependencies": [
+    ".env"
+  ],
+  "pipeline": {
+    "build": {},
+    "dev": {
+      "cache": false
+    },
+    "lint": {},
+    "start": {}
+  }
+}
