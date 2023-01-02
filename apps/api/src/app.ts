@@ -1,4 +1,4 @@
-import { log } from '@eventvalley/log';
+import { log } from '@event-valley/log';
 import express from 'express';
 
 export const app = express();

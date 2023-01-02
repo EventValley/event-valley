@@ -1,5 +1,5 @@
 {
-  "name": "@eventvalley/prisma",
+  "name": "@event-valley/prisma",
   "version": "1.0.0",
   "description": "",
   "author": "Eduard Pochtar<iamfrntdv@gmail.com>",
@@ -16,7 +16,7 @@
     "db:generate-schemas": "prisma generate"
   },
   "dependencies": {
-    "@eventvalley/tsconfig": "*",
+    "@event-valley/tsconfig": "*",
     "@prisma/client": "4.8.0",
     "prisma": "4.8.0"
   },

@@ -1,5 +1,5 @@
 {
-  "name": "@eventvalley/api",
+  "name": "@event-valley/api",
   "version": "1.0.0",
   "description": "",
   "scripts": {
@@ -11,6 +11,8 @@
   },
   "dependencies": {
     "@apollo/server": "4.3.0",
+    "@event-valley/log": "*",
+    "@event-valley/tsconfig": "*",
     "body-parser": "1.20.1",
     "bullmq": "3.5.1",
     "connect-pg-simple": "8.0.0",

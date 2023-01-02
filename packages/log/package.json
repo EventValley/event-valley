@@ -1,5 +1,5 @@
 {
-  "name": "@eventvalley/log",
+  "name": "@event-valley/log",
   "version": "1.0.0",
   "description": "",
   "author": "Eduard Pochtar<iamfrntdv@gmail.com>",
@@ -8,7 +8,7 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@eventvalley/tsconfig": "*",
+    "@event-valley/tsconfig": "*",
     "debug": "4.3.4",
     "cli-color": "2.0.3"
   }

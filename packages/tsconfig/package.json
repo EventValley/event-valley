@@ -1,5 +1,5 @@
 {
-  "name": "@eventvalley/tsconfig",
+  "name": "@event-valley/tsconfig",
   "version": "1.0.0",
   "files": [
     "tsconfig.json"
