@@ -1,0 +1,6 @@
+{
+	"extends": "@eventvalley/tsconfig/tsconfig.json",
+	"compilerOptions": {
+		"outDir": "./dist"
+	}
+}

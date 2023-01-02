@@ -1,14 +1,16 @@
 {
 	"extends": [
-		"next/core-web-vitals"
+		"next/core-web-vitals",
+		"plugin:@typescript-eslint/recommended"
 	],
+	"parser": "@typescript-eslint/parser",
 	"plugins": [
+		"@typescript-eslint",
+		"import",
+		"prettier",
 		"react",
 		"react-hooks",
-		"@typescript-eslint",
-		"prettier",
-		"simple-import-sort",
-		"import"
+		"simple-import-sort"
 	],
 	"rules": {
 		"@typescript-eslint/no-explicit-any": "warn",
