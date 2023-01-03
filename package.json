@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "dev": "turbo run dev",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "predev": "dotenv-checker --schema .env.schema --env .env.local"
+    "predev": "dotenv-checker --schema .env.example --env .env.local"
   },
   "repository": {
     "type": "git",
