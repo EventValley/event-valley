@@ -5,15 +5,22 @@
   "main": "index.js",
   "scripts": {
     "dev": "turbo run dev",
+    "db:deploy": "turbo run db:deploy",
+    "db:format": "turbo run db:format",
+    "db:generate-client": "turbo run db:generate-client",
+    "db:migrate": "turbo run db:migrate",
+    "db:reset": "turbo run db:reset",
+    "db:seed": "turbo run db:seed",
+    "db:truncate": "turbo run db:truncate",
+    "lint": "turbo run lint",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "predev": "dotenv-checker --schema .env.example --env .env.local"
+    "predev": "dotenv-checker --schema .env.example --env .env"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/EventValley/eventvalley.git"
   },
   "author": "",
-  "license": "ISC",
   "bugs": {
     "url": "https://github.com/EventValley/eventvalley/issues"
   },
@@ -23,8 +30,8 @@
     "packages/*"
   ],
   "devDependencies": {
-    "turbo": "1.6.3",
+    "turbo": "1.7.0",
     "dotenv-checker": "1.1.5",
-    "prettier": "2.8.1"
+    "prettier": "2.8.3"
   }
 }
