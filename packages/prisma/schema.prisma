@@ -176,9 +176,9 @@ model User {
   id            String             @id @unique(map: "user_id_uindex") @default(uuid())
   email         String
   emailVerified DateTime?          @db.Timestamptz(0)
-  image         String
+  image         String?
   birhdate      DateTime?          @db.Timestamptz(0)
-  phoneNumber   String
+  phoneNumber   String?
   lastSeen      DateTime?          @default(now())
   roleId        String
   role          Role               @relation(fields: [roleId], references: [id])
@@ -236,8 +236,8 @@ model Venue {
 
 model VerificationToken {
   identifier String
-  token      String   @unique
+  token      String
   expires    DateTime
 
-  @@unique([identifier, token])
+  @@unique(fields: [identifier, token], name: "identifierToken")
 }
