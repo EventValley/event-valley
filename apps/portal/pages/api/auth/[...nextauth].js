@@ -6,6 +6,7 @@ import PrismaAdapter from '../../../lib/prisma-adapter';
 
 export const authOptions = {
 	adapter: PrismaAdapter(db),
+	session: { strategy: 'jwt' },
 	providers: [
 		EmailProvider({
 			server: {
