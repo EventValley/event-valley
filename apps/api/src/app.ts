@@ -1,21 +1,29 @@
-import { log } from '@event-valley/log';
-import express from 'express';
+import Fastify, { FastifyInstance } from 'fastify';
 
-import { auth } from './services/auth';
+import { graphql } from './services/graphql';
 
-export const app = express();
-const port = process.env.PORT || 3000;
+export const app = async (instance: FastifyInstance) => {
+	await instance.register(graphql);
+};
+
+const port = Number(process.env.PORT) || 3000;
+
+const fastify = Fastify({
+	logger: true,
+});
 
 (async () => {
-	auth();
-
-	const server = app.listen(port, () => {
-		log.info(`EventValley API server have been started at http://localhost:${port}/`);
-	});
+	try {
+		await fastify.register(app);
+		await fastify.listen({ port });
+	} catch (error) {
+		fastify.log.error(error);
+		// process.exit(1);
+	}
 
 	['SIGINT', 'SIGTERM'].forEach((signal) => {
 		process.once(signal, async () => {
-			server.close();
+			fastify.close();
 		});
 	});
 })();

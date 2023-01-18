@@ -1,35 +1,38 @@
 {
-  "globalDependencies": [
-    ".env"
-  ],
-  "pipeline": {
-    "build": {},
-    "dev": {
-      "cache": false
-    },
-    "db:deploy": {
-      "cache": false
-    },
-    "db:format": {
-      "cache": false
-    },
-    "db:generate-client": {
-      "cache": false
-    },
-    "db:migrate": {
-      "cache": false
-    },
-    "db:reset": {
-      "cache": false
-    },
-    "db:seed": {
-      "cache": false
-    },
-    "db:truncate": {
-      "cache": false
-    },
-    "clean": {},
-    "lint": {},
-    "start": {}
-  }
+	"globalDependencies": [
+		".env"
+	],
+	"pipeline": {
+		"build": {},
+		"dev": {
+			"cache": false
+		},
+		"db:deploy": {
+			"cache": false
+		},
+		"db:format": {
+			"cache": false
+		},
+		"db:generate-client": {
+			"cache": false
+		},
+		"db:migrate": {
+			"cache": false
+		},
+		"db:reset": {
+			"cache": false
+		},
+		"db:seed": {
+			"cache": false
+		},
+		"db:truncate": {
+			"cache": false
+		},
+		"test": {},
+		"test:integration": {},
+		"test:integration:dev": {},
+		"clean": {},
+		"lint": {},
+		"start": {}
+	}
 }
