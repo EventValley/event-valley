@@ -1,0 +1,72 @@
+type Group {
+	id: ID!
+	name: String!
+	description: String!
+	city: String
+	postalCode: String
+	region: String
+	country: String
+	logo: String
+	banner: String
+	creatorId: String!
+	createdAt: String!
+	modifiedAt: String!
+}
+
+input GroupWhereFilter {
+	id: IDOperators
+	name: StringOperators
+	createdAt: DateOperators
+	updatedAt: DateOperators
+}
+
+input GroupFilter {
+	where: GroupWhereFilter
+}
+
+input GroupOrderBy {
+	createdAt: OrderDirection
+}
+
+input GroupOptions {
+	filter: GroupFilter
+	take: Int
+	skip: Int
+	cursor: Int
+	orderBy: GroupOrderBy
+}
+
+input CreateGroupInput {
+	name: String!
+	description: String!
+	city: String
+	postalCode: String
+	region: String
+	country: String
+	logo: String
+	banner: String
+	creatorId: String
+}
+
+input UpdateGroupInput {
+	id: ID!
+	name: String
+	description: String
+	city: String
+	postalCode: String
+	region: String
+	country: String
+	logo: String
+	banner: String
+	creatorId: String
+}
+
+extend type Query {
+	group(id: ID!): Group
+	groups(options: GroupOptions): [Group]!
+}
+
+extend type Mutation {
+	createGroup(input: CreateGroupInput!): Group!
+	updateGroup(input: UpdateGroupInput!): Group!
+}

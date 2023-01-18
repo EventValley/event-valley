@@ -1,19 +1,14 @@
 import { ApolloServer, BaseContext } from '@apollo/server';
 import { fastifyApolloDrainPlugin, fastifyApolloHandler } from '@as-integrations/fastify';
+import { loadFiles } from '@graphql-tools/load-files';
 import { FastifyInstance } from 'fastify';
-import gql from 'graphql-tag';
 
-import { group } from './group';
+import { eventResolver, groupResolver, venueResolver } from './resolvers';
 
-const defaultTypeDefs = gql`
-	type Query
-	type Mutation
-`;
-
-export const graphql = async (fastify: FastifyInstance) => {
+export const api = async (fastify: FastifyInstance) => {
 	const apollo = new ApolloServer<BaseContext>({
-		typeDefs: [defaultTypeDefs, group.typeDefs],
-		resolvers: [group.resolvers],
+		typeDefs: await loadFiles('./**/*.graphql'),
+		resolvers: [eventResolver, groupResolver, venueResolver],
 		plugins: [fastifyApolloDrainPlugin(fastify)],
 	});
 

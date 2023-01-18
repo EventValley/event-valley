@@ -1,0 +1,72 @@
+type Event {
+	id: ID!
+	name: String
+	description: String
+	startsAt: String
+	endsAt: String
+	capacity: Int
+	inviteOnly: Boolean
+	image: String
+	groupId: String
+	venueId: String
+	statusId: String
+	createdAt: String
+	modifiedAt: String
+}
+
+input EventFilter {
+	id: IDOperators
+	name: StringOperators
+	groupId: String
+	createdAt: DateOperators
+	updatedAt: DateOperators
+}
+
+input EventOrderBy {
+	createdAt: OrderDirection
+}
+
+input EventOptions {
+	filter: EventFilter
+	take: Int
+	skip: Int
+	cursor: Int
+	orderBy: EventOrderBy
+}
+
+input CreateEventInput {
+	name: String!
+	description: String!
+	startsAt: String!
+	endsAt: String!
+	capacity: Int
+	inviteOnly: Boolean
+	image: String
+	groupId: String!
+	venueId: String
+	statusId: String!
+}
+
+input UpdateEventInput {
+	id: ID!
+	name: String
+	description: String
+	startsAt: String
+	endsAt: String
+	capacity: Int
+	inviteOnly: Boolean
+	image: String
+	groupId: String
+	venueId: String
+	statusId: String
+}
+
+extend type Query {
+	event(id: ID!): Event
+	events(options: EventOptions): [Event]!
+}
+
+extend type Mutation {
+	createEvent(input: CreateEventInput!): Event!
+	updateEvent(input: UpdateEventInput!): Event!
+}

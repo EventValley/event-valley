@@ -1,0 +1,42 @@
+type Venue {
+	id: ID!
+	name: String!
+	streetAddress: String
+	city: String
+	postalCode: String
+	region: String
+	country: String
+	latitude: Float
+	longitude: Float
+	groupId: String
+}
+
+input VenueFilter {
+	id: IDOperators
+	name: StringOperators
+	groupId: String
+	createdAt: DateOperators
+	updatedAt: DateOperators
+}
+
+input VenueOrderBy {
+	createdAt: OrderDirection
+}
+
+input VenueOptions {
+	filter: VenueFilter
+	take: Int
+	skip: Int
+	cursor: Int
+	orderBy: VenueOrderBy
+}
+
+extend type Query {
+	venue(id: ID!): Venue
+	venues(options: VenueOptions): [Venue]!
+}
+
+extend type Mutation {
+	createVenue(input: CreateEventInput!): Venue!
+	updateVenue(input: UpdateEventInput!): Venue!
+}

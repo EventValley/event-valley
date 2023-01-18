@@ -1,9 +1,9 @@
 import Fastify, { FastifyInstance } from 'fastify';
 
-import { graphql } from './services/graphql';
+import { api } from './api';
 
 export const app = async (instance: FastifyInstance) => {
-	await instance.register(graphql);
+	await instance.register(api);
 };
 
 const port = Number(process.env.PORT) || 3000;
