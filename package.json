@@ -14,7 +14,8 @@
     "db:truncate": "turbo run db:truncate",
     "lint": "turbo run lint",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "predev": "dotenv-checker --schema .env.example --env .env"
+    "predev": "dotenv-checker --schema .env.example --env .env",
+    "code-gen:types": "turbo run code-gen:types"
   },
   "repository": {
     "type": "git",

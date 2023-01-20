@@ -1,5 +1,6 @@
 import { ApolloServer, BaseContext } from '@apollo/server';
 import { fastifyApolloDrainPlugin, fastifyApolloHandler } from '@as-integrations/fastify';
+import cors from '@fastify/cors';
 import { loadFiles } from '@graphql-tools/load-files';
 import { FastifyInstance } from 'fastify';
 
@@ -13,6 +14,11 @@ export const api = async (fastify: FastifyInstance) => {
 	});
 
 	await apollo.start();
+
+	fastify.register(cors, {
+		origin: '*',
+		methods: ['POST', 'OPTIONS'],
+	});
 
 	fastify.post('/api', fastifyApolloHandler(apollo));
 };
