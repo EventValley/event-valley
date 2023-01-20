@@ -10,13 +10,14 @@
     "lint:fix": "eslint --fix 'src/**/*.{js,jsx,ts,tsx,json}'",
     "test:integration": "vitest run --config ./vitest.integration.config.ts",
     "test:integration:dev": "vitest dev --config ./vitest.integration.config.ts",
-    "genearete-types": "graphql-codegen --config ./codegen.ts"
+    "code-gen:types": "graphql-codegen --config ./codegen.ts"
   },
   "dependencies": {
     "@apollo/server": "4.3.0",
     "@as-integrations/fastify": "1.3.0",
     "@event-valley/log": "*",
     "@event-valley/tsconfig": "*",
+    "@fastify/cors": "^8.2.0",
     "@graphql-tools/load-files": "6.6.1",
     "body-parser": "1.20.1",
     "bullmq": "3.5.1",

@@ -313,6 +313,7 @@ module.exports = {
 		gridTemplateColumns: {
 			none: "none",
 			header: "48ox 1fr",
+			main: '25% 50% 25%',
 			1: "repeat(1, minmax(0, 1fr))",
 			2: "repeat(2, minmax(0, 1fr))",
 			3: "repeat(3, minmax(0, 1fr))",

@@ -1,2 +1,31 @@
 type Query
 type Mutation
+
+enum OrderDirection {
+	asc
+	desc
+}
+
+input IDOperators {
+	equals: String
+	not: String
+	in: [String!]
+	notIn: [String!]
+	contains: String
+	search: String
+}
+
+input StringOperators {
+	equals: String
+	not: String
+	in: [String!]
+	notIn: [String!]
+	contains: String
+	search: String
+}
+
+input DateOperators {
+	equals: String
+	lt: String
+	gt: String
+}
