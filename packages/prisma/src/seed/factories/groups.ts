@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker';
+import slugify from 'slugify';
 
 import { prisma } from '../lib/prisma';
 
@@ -9,9 +10,13 @@ export const createGroups = async (userIds: string[], count: number) => {
 
 	return Promise.all(
 		groups.map(async () => {
+			const name = company.name();
+			const slug = slugify(name, { lower: true });
+
 			return prisma.group.create({
 				data: {
-					name: company.name(),
+					name,
+					slug,
 					description: lorem.words(),
 					city: address.city(),
 					postalCode: address.zipCode(),

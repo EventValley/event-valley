@@ -2,6 +2,8 @@ type Event {
 	id: ID!
 	name: String
 	description: String
+	url: String
+	streamUrl: String
 	startsAt: String
 	endsAt: String
 	capacity: Int
