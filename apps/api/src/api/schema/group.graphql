@@ -1,6 +1,7 @@
 type Group {
 	id: ID!
 	name: String!
+	slug: String!
 	description: String!
 	city: String
 	postalCode: String

@@ -10,7 +10,7 @@
     "db:deploy": "prisma migrate deploy",
     "db:format": "prisma format",
     "db:generate-client": "prisma generate",
-    "db:migrate": "prisma migrate dev",
+    "db:migrate": "prisma format && prisma migrate dev",
     "db:reset": "prisma reset",
     "db:seed": "ts-node src/seed/seed.ts",
     "db:truncate": "ts-node src/seed/truncate.ts"
@@ -20,7 +20,8 @@
     "@event-valley/shared": "*",
     "@event-valley/tsconfig": "*",
     "@prisma/client": "4.8.1",
-    "prisma": "4.8.1"
+    "prisma": "4.8.1",
+    "slugify": "1.6.5"
   },
   "devDependencies": {
     "@faker-js/faker": "7.6.0",

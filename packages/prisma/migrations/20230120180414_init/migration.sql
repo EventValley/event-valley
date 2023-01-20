@@ -3,6 +3,8 @@ CREATE TABLE "Event" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
     "description" TEXT NOT NULL,
+    "url" TEXT,
+    "streamUrl" TEXT,
     "startsAt" TIMESTAMPTZ(0) NOT NULL,
     "endsAt" TIMESTAMPTZ(0) NOT NULL,
     "capacity" INTEGER NOT NULL,
@@ -53,6 +55,7 @@ CREATE TABLE "EventUser" (
 CREATE TABLE "Group" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "slug" TEXT NOT NULL,
     "description" TEXT NOT NULL,
     "city" TEXT,
     "postalCode" TEXT,
@@ -164,9 +167,9 @@ CREATE TABLE "User" (
     "id" TEXT NOT NULL,
     "email" TEXT NOT NULL,
     "emailVerified" TIMESTAMPTZ(0),
-    "image" TEXT NOT NULL,
+    "image" TEXT,
     "birhdate" TIMESTAMPTZ(0),
-    "phoneNumber" TEXT NOT NULL,
+    "phoneNumber" TEXT,
     "lastSeen" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
     "roleId" TEXT NOT NULL,
     "createdAt" TIMESTAMPTZ(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -239,6 +242,9 @@ CREATE UNIQUE INDEX "group_id_uindex" ON "Group"("id");
 CREATE UNIQUE INDEX "Group_name_key" ON "Group"("name");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "Group_slug_key" ON "Group"("slug");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "group_bans_id_uindex" ON "GroupBannedUsers"("id");
 
 -- CreateIndex
@@ -303,9 +309,6 @@ CREATE UNIQUE INDEX "venue_id_uindex" ON "Venue"("id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "Venue_name_key" ON "Venue"("name");
-
--- CreateIndex
-CREATE UNIQUE INDEX "VerificationToken_token_key" ON "VerificationToken"("token");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "VerificationToken_identifier_token_key" ON "VerificationToken"("identifier", "token");

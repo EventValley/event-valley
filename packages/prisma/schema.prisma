@@ -11,6 +11,8 @@ model Event {
   id          String             @id @unique(map: "event_id_uindex") @default(uuid())
   name        String
   description String
+  url         String?
+  streamUrl   String?
   startsAt    DateTime           @db.Timestamptz(0)
   endsAt      DateTime           @db.Timestamptz(0)
   capacity    Int
@@ -59,6 +61,7 @@ model EventUser {
 model Group {
   id          String             @id @unique(map: "group_id_uindex") @default(uuid())
   name        String
+  slug        String
   description String
   city        String?
   postalCode  String?
@@ -75,6 +78,7 @@ model Group {
   modifiedAt  DateTime           @default(now()) @updatedAt @db.Timestamptz(0)
 
   @@unique([name])
+  @@unique([slug])
 }
 
 model GroupBannedUsers {

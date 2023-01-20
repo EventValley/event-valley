@@ -57,6 +57,8 @@ export type Event = {
   name?: Maybe<Scalars['String']>;
   startsAt?: Maybe<Scalars['String']>;
   statusId?: Maybe<Scalars['String']>;
+  streamUrl?: Maybe<Scalars['String']>;
+  url?: Maybe<Scalars['String']>;
   venueId?: Maybe<Scalars['String']>;
 };
 
@@ -94,6 +96,7 @@ export type Group = {
   name: Scalars['String'];
   postalCode?: Maybe<Scalars['String']>;
   region?: Maybe<Scalars['String']>;
+  slug: Scalars['String'];
 };
 
 export type GroupFilter = {
