@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
-export const GET_GROUPS = gql`
-	query GetGroups {
-		groups {
+export const EVENTS = gql`
+	query events {
+		events {
 			id
 			name
 			description

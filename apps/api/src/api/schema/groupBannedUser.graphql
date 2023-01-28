@@ -1,0 +1,13 @@
+type GroupBannedUser {
+	id: ID!
+	groupId: String!
+	group: Group
+	userId: String!
+	user: User
+	createdAt: String!
+	modifiedAt: String!
+}
+
+extend type Query {
+	groupBannedUsers: [GroupBannedUser]!
+}

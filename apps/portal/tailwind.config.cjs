@@ -2,6 +2,7 @@
 module.exports = {
 	content: [
 		"./components/**/*.{html,tsx,ts}",
+		"./modules/**/*.{html,tsx,ts}",
 		"./pages/**/*.{html,tsx,ts}"
 	],
 	darkMode: "media",
@@ -313,7 +314,7 @@ module.exports = {
 		gridTemplateColumns: {
 			none: "none",
 			header: "48ox 1fr",
-			main: '25% 50% 25%',
+			main: '25% 75%',
 			1: "repeat(1, minmax(0, 1fr))",
 			2: "repeat(2, minmax(0, 1fr))",
 			3: "repeat(3, minmax(0, 1fr))",
@@ -420,6 +421,7 @@ module.exports = {
 		maxWidth: ({ theme, breakpoints }) => ({
 			...breakpoints(theme("screens")),
 			480: "480px",
+			1440: "1440px",
 			1960: "1960px"
 		}),
 		minHeight: {

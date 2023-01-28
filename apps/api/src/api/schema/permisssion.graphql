@@ -1,0 +1,11 @@
+type Permission {
+	id: ID!
+	name: String!
+	rolePermissions: [RolePermission]
+	createdAt: String!
+	modifiedAt: String!
+}
+
+extend type Query {
+	permissions: [Permission]!
+}

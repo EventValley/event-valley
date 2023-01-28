@@ -1,0 +1,12 @@
+type Role {
+	id: ID!
+	name: String!
+	rolePermissions: [RolePermission]
+	users: [User]
+	createdAt: String!
+	modifiedAt: String!
+}
+
+extend type Role {
+	roles: [Role]
+}

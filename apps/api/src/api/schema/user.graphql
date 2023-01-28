@@ -1,0 +1,29 @@
+type User {
+	id: ID!
+	name: String!
+	email: String!
+	image: String
+	birthDate: String
+	phoneNumber: String
+	roleId: String!
+	role: Role!
+	groupRoleId: String!
+	groupRole: GroupRole
+	accounts: [UserAccount]
+	groups: [Group]
+	events: [Event]
+	createdAt: String!
+	modifiedAt: String!
+}
+
+type UserAccount {
+	id: ID!
+	provider: String!
+	createdAt: String!
+	modifiedAt: String!
+}
+
+extend type Query {
+	user: User
+	users: [User]
+}

@@ -1,0 +1,6 @@
+type rsvp {
+	id: ID!
+	name: String!
+	createdAt: String!
+	modifiedAt: String!
+}

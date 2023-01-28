@@ -1,5 +1,6 @@
 import React from 'react';
 
+import Container from '@/components/Container';
 import Header from '@/components/Header';
 
 interface LayoutProps {
@@ -8,12 +9,11 @@ interface LayoutProps {
 
 export default function Layout({ children }: LayoutProps) {
 	return (
-		<div className="grid grid-cols-main container mx-auto py-48">
-			<div className="px-24">
+		<Container className="grid grid-cols-main">
+			<div className="h-screen sticky top-0 px-24 py-48">
 				<Header />
 			</div>
-			<main className="px-24">{children}</main>
-			<div className="px-24"></div>
-		</div>
+			<main className="px-24 py-48">{children}</main>
+		</Container>
 	);
 }

@@ -3,9 +3,8 @@ import '../styles/globals.css';
 import { ApolloProvider } from '@apollo/client/react';
 import type { AppProps } from 'next/app';
 
+import { client } from '@/api';
 import Layout from '@/components/Layout';
-
-import { client } from '../api';
 
 export default function App({ Component, pageProps: { ...pageProps } }: AppProps) {
 	return (

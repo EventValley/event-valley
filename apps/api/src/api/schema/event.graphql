@@ -8,9 +8,13 @@ type Event {
 	endsAt: String
 	capacity: Int
 	inviteOnly: Boolean
+	canceled: Boolean
 	image: String
 	groupId: String
+	group: Group
 	venueId: String
+	venue: Venue
+	users: [EventUser]
 	statusId: String
 	createdAt: String
 	modifiedAt: String

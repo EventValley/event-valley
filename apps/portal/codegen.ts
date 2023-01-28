@@ -4,7 +4,16 @@ import { config } from './config';
 
 const codeGenConfig: CodegenConfig = {
 	schema: config.apiUrl,
-	generates: { './types/ApiTypes.ts': { plugins: ['typescript'] } },
+	documents: ['./api/fragments/*.ts', './api/mutations/*.ts', './api/queries/*.ts'],
+	generates: {
+		'./types/ApiTypes.ts': { plugins: ['typescript'] },
+		'./api/graphql.tsx': {
+			plugins: ['typescript', 'typescript-operations', 'typescript-react-apollo'],
+		},
+	},
+	hooks: {
+		afterOneFileWrite: ['prettier --write'],
+	},
 };
 
 export default codeGenConfig;

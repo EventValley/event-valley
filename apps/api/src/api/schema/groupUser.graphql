@@ -1,0 +1,20 @@
+type GroupUser {
+	id: ID!
+	userId: String!
+	user: User!
+	groupId: String!
+	group: Group!
+	groupRoleId: String!
+	groupRole: GroupRole!
+	createdAt: String!
+	modifiedAt: String!
+}
+
+extend type Query {
+	groupUsers: [GroupUser]
+}
+
+extend type Mutation {
+	joinGroup(groupId: ID!): GroupUser
+	leaveGroup(groupId: ID!): GroupUser
+}

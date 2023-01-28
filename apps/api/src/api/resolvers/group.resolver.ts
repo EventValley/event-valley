@@ -1,3 +1,4 @@
+import { GraphQLError } from 'graphql';
 import slugify from 'slugify';
 
 import db from '../../lib/db';
@@ -10,14 +11,37 @@ import {
 
 export const groupResolver = {
 	Query: {
-		group: async (parent: unknown, { id }: QueryGroupArgs) => {
+		group: async (parent: unknown, { id, slug }: QueryGroupArgs) => {
+			if (!id && !slug) {
+				throw new GraphQLError('Invalid argument value', {
+					extensions: {
+						code: 'BAD_USER_INPUT',
+					},
+				});
+			}
+
 			return db.group.findUnique({
 				where: {
 					id,
+					slug,
 				},
 				include: {
-					users: true,
-					events: true,
+					events: {
+						where: {
+							AND: [{ canceled: false }, { endsAt: { gt: new Date() } }],
+						},
+						orderBy: { startsAt: 'asc' },
+						include: {
+							venue: true,
+						},
+					},
+
+					users: {
+						include: {
+							user: true,
+							groupRole: true,
+						},
+					},
 				},
 			});
 		},

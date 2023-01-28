@@ -1,8 +1,8 @@
 import { gql } from '@apollo/client';
 
-export const GET_GROUP = gql`
-	query GetGroup($id: ID!) {
-		group(id: $id) {
+export const EVENT = gql`
+	query event($id: ID!) {
+		event(id: $id) {
 			id
 			name
 			description

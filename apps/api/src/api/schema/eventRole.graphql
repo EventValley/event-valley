@@ -1,0 +1,13 @@
+type EventRole {
+	id: ID!
+	name: String!
+	eventUsers: [User]!
+	eventRolePermission: [EventRolePermission]!
+	createdAt: String!
+	modifiedAt: String!
+}
+
+extend type EventRole {
+	eventRoles: [EventRole]!
+}
+

@@ -1,8 +1,11 @@
+import { gql } from '@apollo/client';
+import * as Apollo from '@apollo/client';
 export type Maybe<T> = T | null;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
 export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]: Maybe<T[SubKey]> };
+const defaultOptions = {} as const;
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
 	ID: string;
@@ -496,3 +499,320 @@ export type Rsvp = {
 	modifiedAt: Scalars['String'];
 	name: Scalars['String'];
 };
+
+export type GroupFullFragmentFragment = {
+	__typename?: 'Group';
+	id: string;
+	name: string;
+	slug: string;
+	description: string;
+	city?: string | null;
+	postalCode?: string | null;
+	region?: string | null;
+	country?: string | null;
+	logo?: string | null;
+	banner?: string | null;
+	createdAt: string;
+	modifiedAt: string;
+	users?: Array<{
+		__typename?: 'GroupUser';
+		id: string;
+		createdAt: string;
+		modifiedAt: string;
+		groupRole: { __typename?: 'GroupRole'; id: string; name: string };
+		user: { __typename?: 'User'; id: string; name: string; email: string; image?: string | null };
+	} | null> | null;
+	events?: Array<{
+		__typename?: 'Event';
+		id: string;
+		name?: string | null;
+		image?: string | null;
+		description?: string | null;
+		startsAt?: string | null;
+		venue?: {
+			__typename?: 'Venue';
+			streetAddress?: string | null;
+			city?: string | null;
+			postalCode?: string | null;
+			region?: string | null;
+			country?: string | null;
+		} | null;
+	} | null> | null;
+};
+
+export type EventQueryVariables = Exact<{
+	id: Scalars['ID'];
+}>;
+
+export type EventQuery = {
+	__typename?: 'Query';
+	event?: { __typename?: 'Event'; id: string; name?: string | null; description?: string | null } | null;
+};
+
+export type EventsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type EventsQuery = {
+	__typename?: 'Query';
+	events: Array<{
+		__typename?: 'Event';
+		id: string;
+		name?: string | null;
+		description?: string | null;
+	} | null>;
+};
+
+export type GroupQueryVariables = Exact<{
+	id?: InputMaybe<Scalars['ID']>;
+	slug?: InputMaybe<Scalars['String']>;
+}>;
+
+export type GroupQuery = {
+	__typename?: 'Query';
+	group?: {
+		__typename?: 'Group';
+		id: string;
+		name: string;
+		slug: string;
+		description: string;
+		city?: string | null;
+		postalCode?: string | null;
+		region?: string | null;
+		country?: string | null;
+		logo?: string | null;
+		banner?: string | null;
+		createdAt: string;
+		modifiedAt: string;
+		users?: Array<{
+			__typename?: 'GroupUser';
+			id: string;
+			createdAt: string;
+			modifiedAt: string;
+			groupRole: { __typename?: 'GroupRole'; id: string; name: string };
+			user: { __typename?: 'User'; id: string; name: string; email: string; image?: string | null };
+		} | null> | null;
+		events?: Array<{
+			__typename?: 'Event';
+			id: string;
+			name?: string | null;
+			image?: string | null;
+			description?: string | null;
+			startsAt?: string | null;
+			venue?: {
+				__typename?: 'Venue';
+				streetAddress?: string | null;
+				city?: string | null;
+				postalCode?: string | null;
+				region?: string | null;
+				country?: string | null;
+			} | null;
+		} | null> | null;
+	} | null;
+};
+
+export type GroupsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type GroupsQuery = {
+	__typename?: 'Query';
+	groups: Array<{ __typename?: 'Group'; id: string; name: string; slug: string; description: string } | null>;
+};
+
+export const GroupFullFragmentFragmentDoc = gql`
+	fragment GroupFullFragment on Group {
+		id
+		name
+		slug
+		description
+		city
+		postalCode
+		region
+		country
+		logo
+		banner
+		users {
+			id
+			groupRole {
+				id
+				name
+			}
+			user {
+				id
+				name
+				email
+				image
+			}
+			createdAt
+			modifiedAt
+		}
+		events {
+			id
+			name
+			image
+			description
+			startsAt
+			venue {
+				streetAddress
+				city
+				postalCode
+				region
+				country
+			}
+		}
+		createdAt
+		modifiedAt
+	}
+`;
+export const EventDocument = gql`
+	query event($id: ID!) {
+		event(id: $id) {
+			id
+			name
+			description
+		}
+	}
+`;
+
+/**
+ * __useEventQuery__
+ *
+ * To run a query within a React component, call `useEventQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEventQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEventQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *   },
+ * });
+ */
+export function useEventQuery(baseOptions: Apollo.QueryHookOptions<EventQuery, EventQueryVariables>) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<EventQuery, EventQueryVariables>(EventDocument, options);
+}
+export function useEventLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<EventQuery, EventQueryVariables>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<EventQuery, EventQueryVariables>(EventDocument, options);
+}
+export type EventQueryHookResult = ReturnType<typeof useEventQuery>;
+export type EventLazyQueryHookResult = ReturnType<typeof useEventLazyQuery>;
+export type EventQueryResult = Apollo.QueryResult<EventQuery, EventQueryVariables>;
+export const EventsDocument = gql`
+	query events {
+		events {
+			id
+			name
+			description
+		}
+	}
+`;
+
+/**
+ * __useEventsQuery__
+ *
+ * To run a query within a React component, call `useEventsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useEventsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useEventsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useEventsQuery(baseOptions?: Apollo.QueryHookOptions<EventsQuery, EventsQueryVariables>) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<EventsQuery, EventsQueryVariables>(EventsDocument, options);
+}
+export function useEventsLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<EventsQuery, EventsQueryVariables>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<EventsQuery, EventsQueryVariables>(EventsDocument, options);
+}
+export type EventsQueryHookResult = ReturnType<typeof useEventsQuery>;
+export type EventsLazyQueryHookResult = ReturnType<typeof useEventsLazyQuery>;
+export type EventsQueryResult = Apollo.QueryResult<EventsQuery, EventsQueryVariables>;
+export const GroupDocument = gql`
+	query group($id: ID, $slug: String) {
+		group(id: $id, slug: $slug) {
+			...GroupFullFragment
+		}
+	}
+	${GroupFullFragmentFragmentDoc}
+`;
+
+/**
+ * __useGroupQuery__
+ *
+ * To run a query within a React component, call `useGroupQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGroupQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGroupQuery({
+ *   variables: {
+ *      id: // value for 'id'
+ *      slug: // value for 'slug'
+ *   },
+ * });
+ */
+export function useGroupQuery(baseOptions?: Apollo.QueryHookOptions<GroupQuery, GroupQueryVariables>) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<GroupQuery, GroupQueryVariables>(GroupDocument, options);
+}
+export function useGroupLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<GroupQuery, GroupQueryVariables>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<GroupQuery, GroupQueryVariables>(GroupDocument, options);
+}
+export type GroupQueryHookResult = ReturnType<typeof useGroupQuery>;
+export type GroupLazyQueryHookResult = ReturnType<typeof useGroupLazyQuery>;
+export type GroupQueryResult = Apollo.QueryResult<GroupQuery, GroupQueryVariables>;
+export const GroupsDocument = gql`
+	query groups {
+		groups {
+			id
+			name
+			slug
+			description
+		}
+	}
+`;
+
+/**
+ * __useGroupsQuery__
+ *
+ * To run a query within a React component, call `useGroupsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGroupsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGroupsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useGroupsQuery(baseOptions?: Apollo.QueryHookOptions<GroupsQuery, GroupsQueryVariables>) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<GroupsQuery, GroupsQueryVariables>(GroupsDocument, options);
+}
+export function useGroupsLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<GroupsQuery, GroupsQueryVariables>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<GroupsQuery, GroupsQueryVariables>(GroupsDocument, options);
+}
+export type GroupsQueryHookResult = ReturnType<typeof useGroupsQuery>;
+export type GroupsLazyQueryHookResult = ReturnType<typeof useGroupsLazyQuery>;
+export type GroupsQueryResult = Apollo.QueryResult<GroupsQuery, GroupsQueryVariables>;

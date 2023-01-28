@@ -1,0 +1,18 @@
+type EventUser {
+	id: ID!
+	eventId: String!
+	event: Event
+	userId: String!
+	user: User!
+	eventRoleId: String!
+	eventRole: EventRole
+	rsvpId: String!
+	rsvp: rsvp
+	createdAt: String!
+	modifiedAt: String!
+}
+
+extend type Mutation {
+	subscribeToEvent(eventId: ID!): EventUser
+	unsubscribeToEvent(eventId: ID!): EventUser
+}

@@ -198,7 +198,8 @@ export type QueryEventsArgs = {
 
 
 export type QueryGroupArgs = {
-  id: Scalars['ID'];
+  id?: InputMaybe<Scalars['ID']>;
+  slug?: InputMaybe<Scalars['String']>;
 };
 
 

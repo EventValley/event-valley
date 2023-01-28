@@ -1,0 +1,11 @@
+type EventStatus {
+	id: ID!
+	name: String!
+	events: [Event]!
+	createdAt: String!
+	modifiedAt: String!
+}
+
+extend type Query {
+	eventStatuses: [EventStatus]!
+}

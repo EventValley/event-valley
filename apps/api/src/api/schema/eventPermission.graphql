@@ -1,0 +1,11 @@
+type EventPermission {
+	id: ID!
+	name: String!
+	eventRolePermission: [EventRolePermission]
+	createdAt: String!
+	modifiedAt: String!
+}
+
+extend type Query {
+	eventPermissions: [EventPermission]!
+}

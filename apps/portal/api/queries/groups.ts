@@ -1,10 +1,11 @@
 import { gql } from '@apollo/client';
 
-export const GET_EVENT = gql`
-	query GetEvent($id: ID!) {
-		event(id: $id) {
+export const GROUPS = gql`
+	query groups {
+		groups {
 			id
 			name
+			slug
 			description
 		}
 	}

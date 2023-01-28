@@ -1,0 +1,12 @@
+type GroupRole {
+	id: ID!
+	name: String!
+	groupUsers: [GroupUser]
+	groupRolePermissions: [GroupRolePermission]
+	createdAt: String!
+	modifiedAt: String!
+}
+
+extend type Query {
+	groupRoles: [GroupRole]!
+}
