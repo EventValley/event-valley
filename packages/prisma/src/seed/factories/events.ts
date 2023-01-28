@@ -22,6 +22,7 @@ export const createEvents = async (
 					startsAt: date.soon(),
 					endsAt: date.soon(1),
 					capacity: datatype.number({ max: 100 }),
+					canceled: false,
 					inviteOnly: false,
 					image: image.imageUrl(640, 480, 'nature', true),
 					groupId: helpers.shuffle(groupIds)[0],

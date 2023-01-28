@@ -17,6 +17,7 @@ model Event {
   endsAt      DateTime          @db.Timestamptz(0)
   capacity    Int
   inviteOnly  Boolean
+  canceled    Boolean
   image       String
   groupId     String
   group       Group             @relation(fields: [groupId], references: [id])

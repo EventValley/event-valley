@@ -9,6 +9,7 @@ CREATE TABLE "Event" (
     "endsAt" TIMESTAMPTZ(0) NOT NULL,
     "capacity" INTEGER NOT NULL,
     "inviteOnly" BOOLEAN NOT NULL,
+    "canceled" BOOLEAN NOT NULL,
     "image" TEXT NOT NULL,
     "groupId" TEXT NOT NULL,
     "venueId" TEXT NOT NULL,
