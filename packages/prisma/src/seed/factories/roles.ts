@@ -29,3 +29,17 @@ export const createGroupRoles = async () => {
 		})
 	);
 };
+
+export const createEventRoles = async () => {
+	const roles = [GroupRoles.Administrator, GroupRoles.Member];
+
+	return Promise.all(
+		roles.map(async (role) => {
+			return prisma.eventRole.create({
+				data: {
+					name: role,
+				},
+			});
+		})
+	);
+};

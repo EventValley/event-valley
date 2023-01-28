@@ -19,8 +19,8 @@
     "@event-valley/log": "*",
     "@event-valley/shared": "*",
     "@event-valley/tsconfig": "*",
-    "@prisma/client": "4.8.1",
-    "prisma": "4.8.1",
+    "@prisma/client": "4.9.0",
+    "prisma": "4.9.0",
     "slugify": "1.6.5"
   },
   "devDependencies": {

@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "turbo run dev",
+    "dev": "docker compose up -d && turbo run dev",
     "db:deploy": "turbo run db:deploy",
     "db:format": "turbo run db:format",
     "db:generate-client": "turbo run db:generate-client",

@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 
 import { prisma } from '../lib/prisma';
 
-const { internet, date, phone, image, helpers, datatype } = faker;
+const { internet, date, name, phone, image, helpers, datatype } = faker;
 
 export const createUsers = async (roleIds: string[], count: number) => {
 	const users = datatype.array(count);
@@ -11,10 +11,11 @@ export const createUsers = async (roleIds: string[], count: number) => {
 		users.map(async () => {
 			const newUser = await prisma.user.create({
 				data: {
+					name: name.fullName(),
 					email: internet.email(),
 					emailVerified: date.birthdate(),
 					image: image.imageUrl(150, 150, 'tech', true),
-					birhdate: date.birthdate(),
+					birthdate: date.birthdate(),
 					phoneNumber: phone.number(),
 					roleId: helpers.shuffle(roleIds)[0],
 				},
