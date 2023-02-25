@@ -1,26 +1,26 @@
-import passport from 'passport';
+import fastifyAuth from '@fastify/auth';
+import fastifyJwt from '@fastify/jwt';
+import { FastifyInstance } from 'fastify';
 
-import { app } from '../../app';
-import { jwtAuth } from './providers/jwt';
-import { localAuth } from './providers/local';
+import { config } from '../../config';
 import { routes } from './routes';
-import { session } from './session';
 
-export const auth = () => {
-	session();
+const verifyJWT = async (request: any, reply: any, done: any) => {
+	try {
+		await request.jwtVerify();
+		done();
+	} catch (error) {
+		done(error);
+	}
+};
 
-	app.use(passport.initialize());
-	app.use(passport.session());
+export const auth = async (fastify: FastifyInstance) => {
+	await fastify.register(fastifyAuth);
 
-	passport.serializeUser((user, done) => {
-		done(null, user);
+	await fastify.register(fastifyJwt, {
+		secret: config.jwtSecret,
 	});
 
-	passport.deserializeUser((user: never, done) => {
-		done(null, user);
-	});
-
-	localAuth();
-	jwtAuth();
-	routes();
+	fastify.decorate('verifyJWT', verifyJWT);
+	fastify.register(routes, { prefix: '/auth' });
 };

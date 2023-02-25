@@ -1,4 +1,4 @@
-import { GroupPage } from '../../modules/group/pages';
+import { GroupPage } from '@/modules/group/pages';
 
 export default GroupPage;
 

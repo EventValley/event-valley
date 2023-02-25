@@ -1,8 +1,10 @@
 import { FC } from 'react';
 
-import { GroupUser } from '@/api/graphql';
+import { Text } from '@/components/Text';
 import { UserGrid } from '@/components/UserGrid';
 import { UserList } from '@/components/UserList';
+
+import { GroupUser } from '../../../lib/graphql/graphql';
 
 interface AboutProps {
 	content?: string | null;
@@ -22,7 +24,7 @@ export const About: FC<AboutProps> = ({ content, groupUsers }) => {
 	return (
 		<div className="flex gap-48">
 			<div className="w-2/3">
-				<p className="text-gray-1000 text-16 leading-24">{content}</p>
+				<Text size={{ initial: 'sm', md: 'md' }}>{content}</Text>
 			</div>
 
 			<div className="flex flex-col gap-48 w-1/3">

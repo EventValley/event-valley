@@ -22,8 +22,8 @@ export const groupResolver = {
 
 			return db.group.findUnique({
 				where: {
-					id,
-					slug,
+					id: id || undefined,
+					slug: slug || undefined,
 				},
 				include: {
 					events: {

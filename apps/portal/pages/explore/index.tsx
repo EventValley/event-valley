@@ -1,6 +1,6 @@
 import Link from 'next/link';
 
-import { useGroupsQuery } from '@/api/graphql';
+import { useGroupsQuery } from '../../lib/graphql/graphql';
 
 export default function Index() {
 	const { data, loading, error } = useGroupsQuery();

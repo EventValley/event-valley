@@ -1,12 +1,9 @@
-import { useRouter } from 'next/router';
+import { EventPage } from '@/modules/event/pages';
 
-export default function GroupEvent() {
-	const router = useRouter();
-	const { slug, id } = router.query;
+export default EventPage;
 
-	return (
-		<h1>
-			Group Event {slug} {id}
-		</h1>
-	);
+export async function getServerSideProps() {
+	return {
+		props: {},
+	};
 }

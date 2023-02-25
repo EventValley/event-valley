@@ -31,8 +31,8 @@
     "packages/*"
   ],
   "devDependencies": {
-    "turbo": "1.7.0",
     "dotenv-checker": "1.1.5",
-    "prettier": "2.8.3"
+    "prettier": "2.8.4",
+    "turbo": "1.8.2"
   }
 }

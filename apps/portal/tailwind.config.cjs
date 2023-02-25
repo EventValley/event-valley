@@ -1,5 +1,7 @@
+const { withTV } = require('tailwind-variants/transformer')
+
 /** @type {import("tailwindcss").Config} */
-module.exports = {
+module.exports = withTV({
 	content: [
 		"./components/**/*.{html,tsx,ts}",
 		"./modules/**/*.{html,tsx,ts}",
@@ -14,10 +16,7 @@ module.exports = {
 		aspectRatio: {
 			auto: "auto",
 			square: "1 / 1",
-			video: "16 / 9",
-			imageSm: "9 / 5",
-			imageMd: "9 / 6",
-			imageLg: "4 / 3"
+			video: "16 / 9"
 		},
 		backdropBlur: ({ theme }) => theme("blur"),
 		backdropBrightness: ({ theme }) => theme("brightness"),
@@ -421,6 +420,8 @@ module.exports = {
 		maxWidth: ({ theme, breakpoints }) => ({
 			...breakpoints(theme("screens")),
 			480: "480px",
+			722: "722px",
+			1158: "1158px",
 			1440: "1440px",
 			1960: "1960px"
 		}),
@@ -683,4 +684,4 @@ module.exports = {
 		}
 	},
 	plugins: []
-};
+});

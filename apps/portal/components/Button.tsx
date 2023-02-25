@@ -1,4 +1,4 @@
-import { type VariantProps, cva } from 'class-variance-authority';
+import { cva, type VariantProps } from 'class-variance-authority';
 import React, { FC } from 'react';
 
 export const button = cva(
@@ -7,7 +7,7 @@ export const button = cva(
 		variants: {
 			variant: {
 				primary: ['bg-gray-1000', 'hover:bg-gray-800', 'text-gray-50', 'rounded-16'],
-				secondary: [''],
+				secondary: ['hover:bg-gray-200', 'rounded-12'],
 				ghost: ['hover:bg-gray-200', 'rounded-16'],
 				inline: [''],
 			},

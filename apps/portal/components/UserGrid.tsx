@@ -1,7 +1,6 @@
 import { FC } from 'react';
 
-import { User } from '@/api/graphql';
-
+import { User } from '../lib/graphql/graphql';
 import { Avatar } from './Avatar';
 
 interface UserGridProps {

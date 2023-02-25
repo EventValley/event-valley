@@ -14,8 +14,15 @@ export const eventResolver = {
 					id,
 				},
 				include: {
-					users: true,
-					events: true,
+					group: true,
+					users: {
+						include: {
+							user: true,
+							rsvp: true,
+							eventRole: true,
+						},
+					},
+					venue: true,
 				},
 			});
 		},

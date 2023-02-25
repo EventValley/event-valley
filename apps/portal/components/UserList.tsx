@@ -1,7 +1,6 @@
 import { FC } from 'react';
 
-import { User } from '@/api/graphql';
-
+import { User } from '../lib/graphql/graphql';
 import { Avatar } from './Avatar';
 
 interface UserListProps {
@@ -10,7 +9,7 @@ interface UserListProps {
 
 export const UserList: FC<UserListProps> = ({ users }) => {
 	return (
-		<ul>
+		<ul className="flex flex-col gap-8">
 			{users.map((user) => {
 				return (
 					<li key={user.id} className="flex items-center gap-8">

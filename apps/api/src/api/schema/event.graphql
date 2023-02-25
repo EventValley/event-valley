@@ -1,21 +1,22 @@
 type Event {
 	id: ID!
-	name: String
-	description: String
+	name: String!
+	description: String!
 	url: String
 	streamUrl: String
-	startsAt: String
-	endsAt: String
+	startsAt: String!
+	endsAt: String!
 	capacity: Int
 	inviteOnly: Boolean
 	canceled: Boolean
-	image: String
-	groupId: String
-	group: Group
+	image: String!
+	groupId: String!
+	group: Group!
 	venueId: String
 	venue: Venue
 	users: [EventUser]
-	statusId: String
+	statusId: String!
+	status: EventStatus
 	createdAt: String
 	modifiedAt: String
 }

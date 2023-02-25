@@ -1,13 +1,17 @@
 import { CodegenConfig } from '@graphql-codegen/cli';
 
-import { config } from './config';
+// import { config } from './config';
 
 const codeGenConfig: CodegenConfig = {
-	schema: config.apiUrl,
-	documents: ['./api/fragments/*.ts', './api/mutations/*.ts', './api/queries/*.ts'],
+	schema: 'http://localhost:3000/api',
+	documents: [
+		'./lib/graphql/fragments/*.ts',
+		'./lib/graphql/mutations/*.ts',
+		'./lib/graphql/queries/*.ts',
+		'./lib/graphql/queries/*.graphql',
+	],
 	generates: {
-		'./types/ApiTypes.ts': { plugins: ['typescript'] },
-		'./api/graphql.tsx': {
+		'./lib/graphql/graphql.tsx': {
 			plugins: ['typescript', 'typescript-operations', 'typescript-react-apollo'],
 		},
 	},

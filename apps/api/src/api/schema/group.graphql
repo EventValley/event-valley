@@ -7,8 +7,8 @@ type Group {
 	postalCode: String
 	region: String
 	country: String
-	logo: String
-	banner: String
+	logo: String!
+	banner: String!
 	users: [GroupUser]
 	events: [Event]
 	creatorId: String!

@@ -1,10 +1,11 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
-import { Event, GroupUser, useGroupQuery } from '@/api/graphql';
 import { Button } from '@/components/Button';
 import GroupsMembersList from '@/components/GroupMemerList';
 import { About, Events } from '@/modules/group/components';
+
+import { Event, Group, GroupUser, useGroupQuery } from '../../../lib/graphql/graphql';
 
 export const GroupPage = ({}) => {
 	const router = useRouter();
@@ -23,7 +24,7 @@ export const GroupPage = ({}) => {
 	const Content = () => {
 		switch (show) {
 			case 'events':
-				return <Events events={data.group?.events as Event[]} />;
+				return <Events group={data.group as Group} events={data.group?.events as Event[]} />;
 			case 'members':
 				return <GroupsMembersList users={data.group?.users} />;
 			default:
