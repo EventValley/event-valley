@@ -13,9 +13,9 @@ export const middleware = async (req: NextRequest) => {
 
 export const config = {
 	matcher: [
+		'/',
 		'/group',
 		'/group/:path*',
-		'/event',
 		'/explore',
 		'/my-groups',
 		'/my-events',

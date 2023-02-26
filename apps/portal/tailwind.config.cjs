@@ -16,7 +16,8 @@ module.exports = withTV({
 		aspectRatio: {
 			auto: "auto",
 			square: "1 / 1",
-			video: "16 / 9"
+			video: "16 / 9",
+			'ultra-wide': "21 / 9",
 		},
 		backdropBlur: ({ theme }) => theme("blur"),
 		backdropBrightness: ({ theme }) => theme("brightness"),
@@ -73,7 +74,9 @@ module.exports = withTV({
 		borderWidth: {
 			DEFAULT: "1px"
 		},
-		boxShadow: {},
+		boxShadow: {
+			md: '0 12px 32px rgb(0,0,0, .6)'
+		},
 		boxShadowColor: ({ theme }) => theme("colors"),
 		brightness: {},
 		caretColor: ({ theme }) => theme("colors"),
@@ -82,6 +85,7 @@ module.exports = withTV({
 			current: 'currentColor',
 			black: "#000",
 			white: "#fff",
+			red: "red",
 			gray: {
 				50: "#f5f5f5",
 				100: "#f0f0f0",
@@ -419,6 +423,8 @@ module.exports = withTV({
 		}),
 		maxWidth: ({ theme, breakpoints }) => ({
 			...breakpoints(theme("screens")),
+			360: "360px",
+			420: "420px",
 			480: "480px",
 			722: "722px",
 			1158: "1158px",

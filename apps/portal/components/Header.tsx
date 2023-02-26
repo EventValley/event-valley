@@ -11,11 +11,13 @@ export default function Header() {
 	} = useAuth();
 
 	return (
-		<header className="sticky top-0 left-0 h-full py-12">
+		<header className="sticky top-0 left-0 w-full py-12 z-100">
 			<div className="bg-translucent-white-1000 backdrop-blur absolute top-0 left-0 h-full w-full"></div>
 			<Container className="flex items-center gap-24 justify-between relative">
 				<div>
-					<h1 className="text-24 font-700">EV</h1>
+					<NextLink href="/">
+						<h1 className="text-24 font-700">EV</h1>
+					</NextLink>
 				</div>
 				<div className="flex items-center gap-24">
 					<div>
@@ -25,10 +27,10 @@ export default function Header() {
 									<NextLink href="/explore">Explore</NextLink>
 								</li>
 								<li>
-									<NextLink href="/my-groups">My Events</NextLink>
+									<NextLink href="/my-groups">My Groups</NextLink>
 								</li>
 								<li>
-									<NextLink href="/my-events">My Groups</NextLink>
+									<NextLink href="/my-events">My Events</NextLink>
 								</li>
 							</ul>
 						</nav>

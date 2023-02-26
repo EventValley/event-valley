@@ -1,5 +1,5 @@
-import { eventResolver } from './event.resolver';
-import { groupResolver } from './group.resolver';
+import { eventResolver } from './event';
+import { groupResolver } from './group';
 import { userResolver } from './user.resolver';
 import { venueResolver } from './venue.resolver';
 

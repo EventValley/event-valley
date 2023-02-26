@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
 export const GroupFullFragment = gql`
-	fragment GroupFullFragment on Group {
+	fragment GroupFullFragment on GroupWithRelations {
 		id
 		name
 		slug
@@ -12,7 +12,7 @@ export const GroupFullFragment = gql`
 		country
 		logo
 		banner
-		users {
+		groupUsers {
 			id
 			groupRole {
 				id

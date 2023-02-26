@@ -1,3 +1,3 @@
-export default function Index() {
-	return <h1>MyGroups</h1>;
-}
+import { MyGroupsPage } from '@/modules/myGroups/pages';
+
+export default MyGroupsPage;

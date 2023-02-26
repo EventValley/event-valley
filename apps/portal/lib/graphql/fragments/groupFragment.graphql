@@ -1,0 +1,12 @@
+fragment GroupFragment on Group {
+	id
+	name
+	slug
+	description
+	city
+	postalCode
+	region
+	country
+	logo
+	banner
+}

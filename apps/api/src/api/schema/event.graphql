@@ -14,7 +14,7 @@ type Event {
 	group: Group!
 	venueId: String
 	venue: Venue
-	users: [EventUser]
+	eventUsers: [EventUser]
 	statusId: String!
 	status: EventStatus
 	createdAt: String
@@ -71,6 +71,8 @@ input UpdateEventInput {
 extend type Query {
 	event(id: ID!): Event
 	events(options: EventOptions): [Event]!
+	myEvents: [Event]!
+	upcomingEvents: [Event]!
 }
 
 extend type Mutation {

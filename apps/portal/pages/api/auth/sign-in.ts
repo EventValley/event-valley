@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-import { authClient } from '../../../lib/authClient';
+import { authClient } from '@/lib/authClient';
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 	if (req.method === 'POST') {
@@ -10,7 +10,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 			{ email },
 			{ headers: { origin: 'http://localhost:4000' } }
 		);
-		// Process a POST req
 
 		if (response.status === 200) {
 			res.status(200).json({ message: 'Verification token has been sent to your email!' });

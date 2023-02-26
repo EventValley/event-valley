@@ -15,7 +15,7 @@ query event($id: ID!) {
 			logo
 			banner
 		}
-		users {
+		eventUsers {
 			id
 			user {
 				name

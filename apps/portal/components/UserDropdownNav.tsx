@@ -2,12 +2,12 @@ import { button } from '@/components/Button';
 import { HStack } from '@/components/HStack';
 import { Text } from '@/components/Text';
 import { VStack } from '@/components/VStack';
-
-import { User } from '../lib/graphql/graphql';
+import { User } from '@/lib/graphql/graphql';
+import { signOut } from '@/lib/signOut';
 
 export const UserDropdownNav = ({ user }: { user: User }) => {
 	return (
-		<div className="bg-translucent-white-900 backdrop-blur text-current translate-y-24 right-0 absolute p-8 min-w-[240px] rounded-16 z-100">
+		<div className="bg-translucent-white-1000 backdrop-blur text-current translate-y-24 right-0 absolute p-8 min-w-[240px] rounded-16 z-100">
 			<VStack as="ul">
 				<VStack as="li" className="gap-2 px-12 pt-8">
 					<Text as="span" weight={700}>
@@ -28,7 +28,9 @@ export const UserDropdownNav = ({ user }: { user: User }) => {
 					</HStack>
 				</li>
 				<li>
-					<button className={`${button({ variant: 'secondary', size: 'small' })} w-full`}>Sign out</button>
+					<button className={`${button({ variant: 'secondary', size: 'small' })} w-full`} onClick={signOut}>
+						Sign out
+					</button>
 				</li>
 			</VStack>
 		</div>

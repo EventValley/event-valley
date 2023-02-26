@@ -1,7 +1,7 @@
 import React from 'react';
 
-import { Container } from '@/components/Container';
 import Header from '@/components/Header';
+import { Stack } from '@/components/Stack';
 import { useAuth } from '@/modules/auth/store';
 
 interface LayoutProps {
@@ -18,11 +18,11 @@ export default function Layout({ children }: LayoutProps) {
 	}
 
 	return (
-		<div className="relative">
+		<Stack className="relative">
 			<Header />
-			<Container>
-				<main className="py-48">{children}</main>
-			</Container>
-		</div>
+			<Stack as="main" className="py-48">
+				{children}
+			</Stack>
+		</Stack>
 	);
 }

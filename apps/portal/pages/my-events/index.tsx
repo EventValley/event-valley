@@ -1,3 +1,3 @@
-export default function Index() {
-	return <h1>MyEvents</h1>;
-}
+import { MyEventsPage } from '@/modules/myEvents/pages';
+
+export default MyEventsPage;

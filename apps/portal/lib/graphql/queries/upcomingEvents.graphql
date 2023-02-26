@@ -1,0 +1,29 @@
+query upcomingEvens {
+	upcomingEvents {
+		id
+		name
+		description
+		url
+		streamUrl
+		startsAt
+		endsAt
+		canceled
+		image
+		group {
+			id
+			name
+			slug
+			logo
+		}
+		venue {
+			id
+			name
+			streetAddress
+			city
+			region
+			country
+			latitude
+			longitude
+		}
+	}
+}

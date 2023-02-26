@@ -20,14 +20,11 @@
     "incremental": true,
     "baseUrl": "./",
     "paths": {
-      "@/api": [
-        "api"
-      ],
-      "@/api/*": [
-        "api/*"
-      ],
       "@/components/*": [
         "components/*"
+      ],
+      "@/lib/*": [
+        "lib/*"
       ],
       "@/modules/*": [
         "modules/*"

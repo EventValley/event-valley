@@ -50,6 +50,7 @@ export type Event = {
   createdAt?: Maybe<Scalars['String']>;
   description: Scalars['String'];
   endsAt: Scalars['String'];
+  eventUsers?: Maybe<Array<Maybe<EventUser>>>;
   group: Group;
   groupId: Scalars['String'];
   id: Scalars['ID'];
@@ -62,7 +63,6 @@ export type Event = {
   statusId: Scalars['String'];
   streamUrl?: Maybe<Scalars['String']>;
   url?: Maybe<Scalars['String']>;
-  users?: Maybe<Array<Maybe<EventUser>>>;
   venue?: Maybe<Venue>;
   venueId?: Maybe<Scalars['String']>;
 };
@@ -162,6 +162,7 @@ export type Group = {
   creatorId: Scalars['String'];
   description: Scalars['String'];
   events?: Maybe<Array<Maybe<Event>>>;
+  groupUsers?: Maybe<Array<Maybe<GroupUser>>>;
   id: Scalars['ID'];
   logo: Scalars['String'];
   modifiedAt: Scalars['String'];
@@ -169,7 +170,6 @@ export type Group = {
   postalCode?: Maybe<Scalars['String']>;
   region?: Maybe<Scalars['String']>;
   slug: Scalars['String'];
-  users?: Maybe<Array<Maybe<GroupUser>>>;
 };
 
 export type GroupBannedUser = {

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
+import { Avatar } from '@/components/Avatar';
 import { UserDropdownNav } from '@/components/UserDropdownNav';
 
-import { getInitials } from '../lib/getInitials';
 import { User } from '../lib/graphql/graphql';
 
 export const UserDropdown = ({ user }: { user: User }) => {
@@ -21,11 +21,7 @@ export const UserDropdown = ({ user }: { user: User }) => {
 				className="appearance-none bg-gray-200 rounded-full flex items-center justify-center h-32 w-32 overflow-hidden"
 				onClick={openDropdown}
 				onBlur={closeDropdown}>
-				{user && user.image ? (
-					<img src={user.image} alt="user profile image" />
-				) : (
-					<div>{getInitials(user.name)}</div>
-				)}
+				<Avatar image={null} name={user.name} />
 			</button>
 			{isVisible && <UserDropdownNav user={user} />}
 		</div>

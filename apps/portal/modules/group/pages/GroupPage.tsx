@@ -2,10 +2,10 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import { Button } from '@/components/Button';
+import { Container } from '@/components/Container';
 import GroupsMembersList from '@/components/GroupMemerList';
+import { Event, Group, GroupUser, useGroupQuery } from '@/lib/graphql/graphql';
 import { About, Events } from '@/modules/group/components';
-
-import { Event, Group, GroupUser, useGroupQuery } from '../../../lib/graphql/graphql';
 
 export const GroupPage = ({}) => {
 	const router = useRouter();
@@ -26,14 +26,14 @@ export const GroupPage = ({}) => {
 			case 'events':
 				return <Events group={data.group as Group} events={data.group?.events as Event[]} />;
 			case 'members':
-				return <GroupsMembersList users={data.group?.users} />;
+				return <GroupsMembersList users={data.group?.groupUsers} />;
 			default:
-				return <About content={data.group?.description} groupUsers={data.group?.users as GroupUser[]} />;
+				return <About content={data.group?.description} groupUsers={data.group?.groupUsers as GroupUser[]} />;
 		}
 	};
 
 	return (
-		<>
+		<Container>
 			<div className="flex flex-col gap-12 mb-24">
 				<h1 className="text-32 leading-40 font-700">{data.group.name}</h1>
 
@@ -44,8 +44,8 @@ export const GroupPage = ({}) => {
 				</ul>
 			</div>
 
-			<div className="overflow-hidden rounded-16">
-				<img src={data.group.banner || ''} alt="" className="w-full" />
+			<div className="flex overflow-hidden aspect-ultra-wide rounded-16 ultra-wide">
+				<img src={data.group.banner || ''} alt="" className="object-cover w-full" />
 			</div>
 
 			<div className="flex gap-24 py-12 border-b border-gray-200">
@@ -74,6 +74,6 @@ export const GroupPage = ({}) => {
 			<div className="grid py-24">
 				<Content />
 			</div>
-		</>
+		</Container>
 	);
 };

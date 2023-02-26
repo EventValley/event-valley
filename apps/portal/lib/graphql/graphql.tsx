@@ -53,6 +53,7 @@ export type Event = {
 	createdAt?: Maybe<Scalars['String']>;
 	description: Scalars['String'];
 	endsAt: Scalars['String'];
+	eventUsers?: Maybe<Array<Maybe<EventUser>>>;
 	group: Group;
 	groupId: Scalars['String'];
 	id: Scalars['ID'];
@@ -65,7 +66,6 @@ export type Event = {
 	statusId: Scalars['String'];
 	streamUrl?: Maybe<Scalars['String']>;
 	url?: Maybe<Scalars['String']>;
-	users?: Maybe<Array<Maybe<EventUser>>>;
 	venue?: Maybe<Venue>;
 	venueId?: Maybe<Scalars['String']>;
 };
@@ -164,7 +164,6 @@ export type Group = {
 	createdAt: Scalars['String'];
 	creatorId: Scalars['String'];
 	description: Scalars['String'];
-	events?: Maybe<Array<Maybe<Event>>>;
 	id: Scalars['ID'];
 	logo: Scalars['String'];
 	modifiedAt: Scalars['String'];
@@ -172,7 +171,6 @@ export type Group = {
 	postalCode?: Maybe<Scalars['String']>;
 	region?: Maybe<Scalars['String']>;
 	slug: Scalars['String'];
-	users?: Maybe<Array<Maybe<GroupUser>>>;
 };
 
 export type GroupBannedUser = {
@@ -250,6 +248,25 @@ export type GroupWhereFilter = {
 	id?: InputMaybe<IdOperators>;
 	name?: InputMaybe<StringOperators>;
 	updatedAt?: InputMaybe<DateOperators>;
+};
+
+export type GroupWithRelations = {
+	__typename?: 'GroupWithRelations';
+	banner: Scalars['String'];
+	city?: Maybe<Scalars['String']>;
+	country?: Maybe<Scalars['String']>;
+	createdAt: Scalars['String'];
+	creatorId: Scalars['String'];
+	description: Scalars['String'];
+	events?: Maybe<Array<Maybe<Event>>>;
+	groupUsers?: Maybe<Array<Maybe<GroupUser>>>;
+	id: Scalars['ID'];
+	logo: Scalars['String'];
+	modifiedAt: Scalars['String'];
+	name: Scalars['String'];
+	postalCode?: Maybe<Scalars['String']>;
+	region?: Maybe<Scalars['String']>;
+	slug: Scalars['String'];
 };
 
 export type IdOperators = {
@@ -337,14 +354,17 @@ export type Query = {
 	eventRolePermissions: Array<Maybe<EventRolePermission>>;
 	eventStatuses: Array<Maybe<EventStatus>>;
 	events: Array<Maybe<Event>>;
-	group?: Maybe<Group>;
+	group?: Maybe<GroupWithRelations>;
 	groupBannedUsers: Array<Maybe<GroupBannedUser>>;
 	groupPermissions: Array<Maybe<GroupPermission>>;
 	groupRolePermissions: Array<Maybe<GroupRolePermission>>;
 	groupRoles: Array<Maybe<GroupRole>>;
 	groupUsers?: Maybe<Array<Maybe<GroupUser>>>;
 	groups: Array<Maybe<Group>>;
+	myEvents: Array<Maybe<Event>>;
+	myGroups: Array<Maybe<Group>>;
 	permissions: Array<Maybe<Permission>>;
+	upcomingEvents: Array<Maybe<Event>>;
 	user?: Maybe<User>;
 	users?: Maybe<Array<Maybe<User>>>;
 	venue?: Maybe<Venue>;
@@ -365,6 +385,10 @@ export type QueryGroupArgs = {
 };
 
 export type QueryGroupsArgs = {
+	options?: InputMaybe<GroupOptions>;
+};
+
+export type QueryMyGroupsArgs = {
 	options?: InputMaybe<GroupOptions>;
 };
 
@@ -503,8 +527,22 @@ export type Rsvp = {
 	name: Scalars['String'];
 };
 
-export type GroupFullFragmentFragment = {
+export type GroupFragmentFragment = {
 	__typename?: 'Group';
+	id: string;
+	name: string;
+	slug: string;
+	description: string;
+	city?: string | null;
+	postalCode?: string | null;
+	region?: string | null;
+	country?: string | null;
+	logo: string;
+	banner: string;
+};
+
+export type GroupFullFragmentFragment = {
+	__typename?: 'GroupWithRelations';
 	id: string;
 	name: string;
 	slug: string;
@@ -517,7 +555,7 @@ export type GroupFullFragmentFragment = {
 	banner: string;
 	createdAt: string;
 	modifiedAt: string;
-	users?: Array<{
+	groupUsers?: Array<{
 		__typename?: 'GroupUser';
 		id: string;
 		createdAt: string;
@@ -561,7 +599,7 @@ export type EventQuery = {
 		canceled?: boolean | null;
 		image: string;
 		group: { __typename?: 'Group'; id: string; name: string; logo: string; banner: string };
-		users?: Array<{
+		eventUsers?: Array<{
 			__typename?: 'EventUser';
 			id: string;
 			user: { __typename?: 'User'; name: string; image?: string | null };
@@ -597,7 +635,7 @@ export type GroupQueryVariables = Exact<{
 export type GroupQuery = {
 	__typename?: 'Query';
 	group?: {
-		__typename?: 'Group';
+		__typename?: 'GroupWithRelations';
 		id: string;
 		name: string;
 		slug: string;
@@ -610,7 +648,7 @@ export type GroupQuery = {
 		banner: string;
 		createdAt: string;
 		modifiedAt: string;
-		users?: Array<{
+		groupUsers?: Array<{
 			__typename?: 'GroupUser';
 			id: string;
 			createdAt: string;
@@ -644,6 +682,86 @@ export type GroupsQuery = {
 	groups: Array<{ __typename?: 'Group'; id: string; name: string; slug: string; description: string } | null>;
 };
 
+export type HomeQueryVariables = Exact<{ [key: string]: never }>;
+
+export type HomeQuery = {
+	__typename?: 'Query';
+	myGroups: Array<{
+		__typename?: 'Group';
+		id: string;
+		name: string;
+		slug: string;
+		description: string;
+		city?: string | null;
+		postalCode?: string | null;
+		region?: string | null;
+		country?: string | null;
+		logo: string;
+		banner: string;
+	} | null>;
+	upcomingEvents: Array<{
+		__typename?: 'Event';
+		id: string;
+		name: string;
+		description: string;
+		url?: string | null;
+		streamUrl?: string | null;
+		startsAt: string;
+		endsAt: string;
+		canceled?: boolean | null;
+		image: string;
+		group: { __typename?: 'Group'; id: string; name: string; slug: string; logo: string };
+		venue?: {
+			__typename?: 'Venue';
+			id: string;
+			name: string;
+			streetAddress?: string | null;
+			city?: string | null;
+			region?: string | null;
+			country?: string | null;
+			latitude?: number | null;
+			longitude?: number | null;
+		} | null;
+	} | null>;
+};
+
+export type MyGroupsQueryVariables = Exact<{ [key: string]: never }>;
+
+export type MyGroupsQuery = {
+	__typename?: 'Query';
+	myGroups: Array<{ __typename?: 'Group'; id: string; name: string; logo: string; banner: string } | null>;
+};
+
+export type UpcomingEvensQueryVariables = Exact<{ [key: string]: never }>;
+
+export type UpcomingEvensQuery = {
+	__typename?: 'Query';
+	upcomingEvents: Array<{
+		__typename?: 'Event';
+		id: string;
+		name: string;
+		description: string;
+		url?: string | null;
+		streamUrl?: string | null;
+		startsAt: string;
+		endsAt: string;
+		canceled?: boolean | null;
+		image: string;
+		group: { __typename?: 'Group'; id: string; name: string; slug: string; logo: string };
+		venue?: {
+			__typename?: 'Venue';
+			id: string;
+			name: string;
+			streetAddress?: string | null;
+			city?: string | null;
+			region?: string | null;
+			country?: string | null;
+			latitude?: number | null;
+			longitude?: number | null;
+		} | null;
+	} | null>;
+};
+
 export type UserQueryVariables = Exact<{ [key: string]: never }>;
 
 export type UserQuery = {
@@ -660,8 +778,8 @@ export type UserQuery = {
 	} | null;
 };
 
-export const GroupFullFragmentFragmentDoc = gql`
-	fragment GroupFullFragment on Group {
+export const GroupFragmentFragmentDoc = gql`
+	fragment GroupFragment on Group {
 		id
 		name
 		slug
@@ -672,7 +790,21 @@ export const GroupFullFragmentFragmentDoc = gql`
 		country
 		logo
 		banner
-		users {
+	}
+`;
+export const GroupFullFragmentFragmentDoc = gql`
+	fragment GroupFullFragment on GroupWithRelations {
+		id
+		name
+		slug
+		description
+		city
+		postalCode
+		region
+		country
+		logo
+		banner
+		groupUsers {
 			id
 			groupRole {
 				id
@@ -723,7 +855,7 @@ export const EventDocument = gql`
 				logo
 				banner
 			}
-			users {
+			eventUsers {
 				id
 				user {
 					name
@@ -897,6 +1029,171 @@ export function useGroupsLazyQuery(
 export type GroupsQueryHookResult = ReturnType<typeof useGroupsQuery>;
 export type GroupsLazyQueryHookResult = ReturnType<typeof useGroupsLazyQuery>;
 export type GroupsQueryResult = Apollo.QueryResult<GroupsQuery, GroupsQueryVariables>;
+export const HomeDocument = gql`
+	query home {
+		myGroups(options: { take: 4 }) {
+			...GroupFragment
+		}
+		upcomingEvents {
+			id
+			name
+			description
+			url
+			streamUrl
+			startsAt
+			endsAt
+			canceled
+			image
+			group {
+				id
+				name
+				slug
+				logo
+			}
+			venue {
+				id
+				name
+				streetAddress
+				city
+				region
+				country
+				latitude
+				longitude
+			}
+		}
+	}
+	${GroupFragmentFragmentDoc}
+`;
+
+/**
+ * __useHomeQuery__
+ *
+ * To run a query within a React component, call `useHomeQuery` and pass it any options that fit your needs.
+ * When your component renders, `useHomeQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useHomeQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useHomeQuery(baseOptions?: Apollo.QueryHookOptions<HomeQuery, HomeQueryVariables>) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<HomeQuery, HomeQueryVariables>(HomeDocument, options);
+}
+export function useHomeLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<HomeQuery, HomeQueryVariables>) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<HomeQuery, HomeQueryVariables>(HomeDocument, options);
+}
+export type HomeQueryHookResult = ReturnType<typeof useHomeQuery>;
+export type HomeLazyQueryHookResult = ReturnType<typeof useHomeLazyQuery>;
+export type HomeQueryResult = Apollo.QueryResult<HomeQuery, HomeQueryVariables>;
+export const MyGroupsDocument = gql`
+	query myGroups {
+		myGroups {
+			id
+			name
+			logo
+			banner
+		}
+	}
+`;
+
+/**
+ * __useMyGroupsQuery__
+ *
+ * To run a query within a React component, call `useMyGroupsQuery` and pass it any options that fit your needs.
+ * When your component renders, `useMyGroupsQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useMyGroupsQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useMyGroupsQuery(
+	baseOptions?: Apollo.QueryHookOptions<MyGroupsQuery, MyGroupsQueryVariables>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<MyGroupsQuery, MyGroupsQueryVariables>(MyGroupsDocument, options);
+}
+export function useMyGroupsLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<MyGroupsQuery, MyGroupsQueryVariables>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<MyGroupsQuery, MyGroupsQueryVariables>(MyGroupsDocument, options);
+}
+export type MyGroupsQueryHookResult = ReturnType<typeof useMyGroupsQuery>;
+export type MyGroupsLazyQueryHookResult = ReturnType<typeof useMyGroupsLazyQuery>;
+export type MyGroupsQueryResult = Apollo.QueryResult<MyGroupsQuery, MyGroupsQueryVariables>;
+export const UpcomingEvensDocument = gql`
+	query upcomingEvens {
+		upcomingEvents {
+			id
+			name
+			description
+			url
+			streamUrl
+			startsAt
+			endsAt
+			canceled
+			image
+			group {
+				id
+				name
+				slug
+				logo
+			}
+			venue {
+				id
+				name
+				streetAddress
+				city
+				region
+				country
+				latitude
+				longitude
+			}
+		}
+	}
+`;
+
+/**
+ * __useUpcomingEvensQuery__
+ *
+ * To run a query within a React component, call `useUpcomingEvensQuery` and pass it any options that fit your needs.
+ * When your component renders, `useUpcomingEvensQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useUpcomingEvensQuery({
+ *   variables: {
+ *   },
+ * });
+ */
+export function useUpcomingEvensQuery(
+	baseOptions?: Apollo.QueryHookOptions<UpcomingEvensQuery, UpcomingEvensQueryVariables>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useQuery<UpcomingEvensQuery, UpcomingEvensQueryVariables>(UpcomingEvensDocument, options);
+}
+export function useUpcomingEvensLazyQuery(
+	baseOptions?: Apollo.LazyQueryHookOptions<UpcomingEvensQuery, UpcomingEvensQueryVariables>
+) {
+	const options = { ...defaultOptions, ...baseOptions };
+	return Apollo.useLazyQuery<UpcomingEvensQuery, UpcomingEvensQueryVariables>(UpcomingEvensDocument, options);
+}
+export type UpcomingEvensQueryHookResult = ReturnType<typeof useUpcomingEvensQuery>;
+export type UpcomingEvensLazyQueryHookResult = ReturnType<typeof useUpcomingEvensLazyQuery>;
+export type UpcomingEvensQueryResult = Apollo.QueryResult<UpcomingEvensQuery, UpcomingEvensQueryVariables>;
 export const UserDocument = gql`
 	query user {
 		user {

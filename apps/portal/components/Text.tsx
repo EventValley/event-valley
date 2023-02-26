@@ -1,8 +1,13 @@
-import { FC } from 'react';
+import React, { FC } from 'react';
 import { tv, type VariantProps } from 'tailwind-variants';
 
 const text = tv({
 	variants: {
+		align: {
+			left: ['text-left'],
+			center: ['text-center'],
+			right: ['text-right'],
+		},
 		size: {
 			xs: ['text-12', 'leading-16'],
 			sm: ['text-14', 'leading-16'],
@@ -18,16 +23,20 @@ const text = tv({
 			700: ['font-700'],
 		},
 	},
+	defaultVariants: {
+		align: 'left',
+	},
 });
 
 type TextVariants = VariantProps<typeof text>;
 
 interface TextProps extends TextVariants {
+	className?: string;
 	children: React.ReactNode;
 	as?: 'p' | 'span';
 }
 
-export const Text: FC<TextProps> = ({ as = 'p', children, size, weight }) => {
+export const Text: FC<TextProps> = ({ as = 'p', className, children, align, size, weight }) => {
 	const Tag = as;
-	return <Tag className={text({ size, weight })}>{children}</Tag>;
+	return <Tag className={`${text({ align, size, weight })} ${className ? className : ''}`}>{children}</Tag>;
 };

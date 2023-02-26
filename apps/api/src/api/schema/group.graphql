@@ -9,7 +9,23 @@ type Group {
 	country: String
 	logo: String!
 	banner: String!
-	users: [GroupUser]
+	creatorId: String!
+	createdAt: String!
+	modifiedAt: String!
+}
+
+type GroupWithRelations {
+	id: ID!
+	name: String!
+	slug: String!
+	description: String!
+	city: String
+	postalCode: String
+	region: String
+	country: String
+	logo: String!
+	banner: String!
+	groupUsers: [GroupUser]
 	events: [Event]
 	creatorId: String!
 	createdAt: String!
@@ -65,8 +81,9 @@ input UpdateGroupInput {
 }
 
 extend type Query {
-	group(id: ID, slug: String): Group
+	group(id: ID, slug: String): GroupWithRelations
 	groups(options: GroupOptions): [Group]!
+	myGroups(options: GroupOptions): [Group]!
 }
 
 extend type Mutation {

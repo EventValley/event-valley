@@ -15,12 +15,15 @@ export const createEvents = async (
 
 	return Promise.all(
 		events.map(async () => {
+			const days = datatype.number({ min: 10, max: 100 });
+			const startsAtDate = date.soon(days);
+
 			return prisma.event.create({
 				data: {
 					name: company.name(),
-					description: lorem.words(),
-					startsAt: date.soon(),
-					endsAt: date.soon(1),
+					description: lorem.paragraphs(4),
+					startsAt: startsAtDate,
+					endsAt: startsAtDate,
 					capacity: datatype.number({ max: 100 }),
 					canceled: false,
 					inviteOnly: false,

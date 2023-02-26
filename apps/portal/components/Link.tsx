@@ -1,14 +1,14 @@
-import { cva, VariantProps } from 'class-variance-authority';
 import NextLink from 'next/link';
 import React, { FC } from 'react';
+import { tv, VariantProps } from 'tailwind-variants';
 
-export const link = cva(['flex items-center gap-12'], {
+export const link = tv({
 	variants: {
 		variant: {
 			primary: [],
 			secondary: [],
 			ghost: ['font-600', 'hover:bg-gray-50', 'rounded-16'],
-			inline: [],
+			inline: ['underline', 'hover:no-underline'],
 		},
 		size: {
 			none: [],
@@ -16,6 +16,9 @@ export const link = cva(['flex items-center gap-12'], {
 			medium: ['text-16', 'leading-24', 'max-h-40', 'px-24', 'py-8'],
 			large: [],
 		},
+	},
+	defaultVariants: {
+		variant: 'inline',
 	},
 });
 

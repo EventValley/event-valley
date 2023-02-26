@@ -6,6 +6,7 @@ const codeGenConfig: CodegenConfig = {
 	schema: 'http://localhost:3000/api',
 	documents: [
 		'./lib/graphql/fragments/*.ts',
+		'./lib/graphql/fragments/*.graphql',
 		'./lib/graphql/mutations/*.ts',
 		'./lib/graphql/queries/*.ts',
 		'./lib/graphql/queries/*.graphql',

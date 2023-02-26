@@ -8,7 +8,6 @@ const httpLink = new HttpLink({ uri: config.apiUrl });
 
 const logoutLink = onError(({ networkError }) => {
 	if (networkError && (networkError as ServerError).statusCode === 401) {
-		console.log('networkError', networkError);
 		Cookies.remove('ev');
 		window.location.href = '/sign-in';
 	}
