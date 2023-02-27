@@ -2,8 +2,7 @@ import { useState } from 'react';
 
 import { Avatar } from '@/components/Avatar';
 import { UserDropdownNav } from '@/components/UserDropdownNav';
-
-import { User } from '../lib/graphql/graphql';
+import { User } from '@/lib/graphql/graphql';
 
 export const UserDropdown = ({ user }: { user: User }) => {
 	const [isVisible, setVisibility] = useState(false);

@@ -16,7 +16,7 @@ export const UserDropdownNav = ({ user }: { user: User }) => {
 				</VStack>
 				<li>
 					<HStack className="px-12">
-						<div className="bg-current opacity-10 h-1 w-full my-12"></div>
+						<div className="bg-current opacity-10 h-1 w-full my-8"></div>
 					</HStack>
 				</li>
 				<li>
@@ -24,7 +24,7 @@ export const UserDropdownNav = ({ user }: { user: User }) => {
 				</li>
 				<li>
 					<HStack className="px-12">
-						<div className="bg-current opacity-10 h-1 w-full my-12"></div>
+						<div className="bg-current opacity-10 h-1 w-full my-8"></div>
 					</HStack>
 				</li>
 				<li>

@@ -5,7 +5,7 @@ export const middleware = async (req: NextRequest) => {
 	const token = req.cookies.get('ev')?.value;
 
 	if (!token) {
-		return NextResponse.redirect(new URL('/sign-in', req.url)); // redirect to /unauthorized page
+		return NextResponse.redirect(new URL('/welcome', req.url)); // redirect to /unauthorized page
 	}
 
 	return res;

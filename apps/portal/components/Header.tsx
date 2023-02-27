@@ -19,24 +19,43 @@ export default function Header() {
 						<h1 className="text-24 font-700">EV</h1>
 					</NextLink>
 				</div>
-				<div className="flex items-center gap-24">
-					<div>
-						<nav>
-							<ul className="flex text-14 gap-12">
-								<li>
-									<NextLink href="/explore">Explore</NextLink>
-								</li>
-								<li>
-									<NextLink href="/my-groups">My Groups</NextLink>
-								</li>
-								<li>
-									<NextLink href="/my-events">My Events</NextLink>
-								</li>
-							</ul>
-						</nav>
+				{user ? (
+					<div className="flex items-center gap-24">
+						<div>
+							<nav>
+								<ul className="flex text-14 gap-12">
+									<li>
+										<NextLink href="/explore" className="font-700">
+											Explore
+										</NextLink>
+									</li>
+									<li>
+										<NextLink href="/my-groups" className="font-700">
+											My Groups
+										</NextLink>
+									</li>
+									<li>
+										<NextLink href="/my-events" className="font-700">
+											My Events
+										</NextLink>
+									</li>
+								</ul>
+							</nav>
+						</div>
+						<UserDropdown user={user} />
 					</div>
-					{user && <UserDropdown user={user} />}
-				</div>
+				) : (
+					<nav>
+						<ul className="flex text-14 gap-12">
+							<li>
+								<NextLink href="/sign-in">Sign In</NextLink>
+							</li>
+							<li>
+								<NextLink href="/sign-up">Sign Up</NextLink>
+							</li>
+						</ul>
+					</nav>
+				)}
 			</Container>
 		</header>
 	);
