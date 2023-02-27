@@ -85,7 +85,9 @@ module.exports = withTV({
 			current: 'currentColor',
 			black: "#000",
 			white: "#fff",
-			red: "red",
+			red: {
+				1000: '#FF4F37',
+			},
 			gray: {
 				50: "#f5f5f5",
 				100: "#f0f0f0",

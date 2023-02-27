@@ -32,15 +32,11 @@ type GroupWithRelations {
 	modifiedAt: String!
 }
 
-input GroupWhereFilter {
+input GroupFilter {
 	id: IDOperators
 	name: StringOperators
 	createdAt: DateOperators
 	updatedAt: DateOperators
-}
-
-input GroupFilter {
-	where: GroupWhereFilter
 }
 
 input GroupOrderBy {
@@ -53,6 +49,7 @@ input GroupOptions {
 	skip: Int
 	cursor: Int
 	orderBy: GroupOrderBy
+	personal: Boolean
 }
 
 input CreateGroupInput {

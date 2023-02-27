@@ -1,9 +1,9 @@
 import { GraphQLError } from 'graphql/index';
 
-import db from '../../../lib/db';
+import { ApiContext } from '../../../types/ApiContext';
 import { QueryGroupArgs } from '../../../types/ApiTypes';
 
-export const group = async (parent: unknown, { id, slug }: QueryGroupArgs) => {
+export const group = async (parent: unknown, { id, slug }: QueryGroupArgs, { db }: ApiContext) => {
 	if (!id && !slug) {
 		throw new GraphQLError('Invalid argument value', {
 			extensions: {

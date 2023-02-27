@@ -51,16 +51,19 @@ export const SignInPage = () => {
 
 	return (
 		<Container className="flex items-center justify-center min-h-680">
-			<Stack className="flex flex-col gap-32 max-w-360 w-full">
-				<Stack className="flex flex-col gap-16">
+			<Stack direction="vertical" className="gap-32 max-w-360 w-full">
+				<Stack direction="vertical" className="gap-16">
 					<Heading size="md">
 						Welcome to Event Valley, <br /> Sign In to Continue.
 					</Heading>
 
-					<Stack>
+					<Stack direction="vertical">
 						<Text>Don't have an account yet?</Text>
 						<Text>
-							<Link href="/sign-up">Create account</Link>, it takes less than a minute!
+							<Link href="/sign-up" underline>
+								Create account
+							</Link>
+							, it takes less than a minute!
 						</Text>
 					</Stack>
 				</Stack>

@@ -1,17 +1,20 @@
 import { log } from '@event-valley/log';
 import { GraphQLError } from 'graphql/index';
 
-import db from '../../../lib/db';
 import { ApiContext } from '../../../types/ApiContext';
 import { QueryEventsArgs } from '../../../types/ApiTypes';
 
-export const upcomingEvents = async (parent: unknown, { options }: QueryEventsArgs, ctx: ApiContext) => {
+export const upcomingEvents = async (
+	parent: unknown,
+	{ options }: QueryEventsArgs,
+	{ db, user }: ApiContext
+) => {
 	try {
 		return db.event.findMany({
 			where: {
 				eventUsers: {
 					some: {
-						userId: ctx.user.id,
+						userId: user.id,
 					},
 				},
 				...(options && options.filter),

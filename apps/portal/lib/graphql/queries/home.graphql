@@ -2,31 +2,7 @@ query home {
 	myGroups(options: { take: 4 }) {
 		...GroupFragment
 	}
-	upcomingEvents {
-		id
-		name
-		description
-		url
-		streamUrl
-		startsAt
-		endsAt
-		canceled
-		image
-		group {
-			id
-			name
-			slug
-			logo
-		}
-		venue {
-			id
-			name
-			streetAddress
-			city
-			region
-			country
-			latitude
-			longitude
-		}
+	events(options: {personal: true, take: 12, skip: 0}) {
+		...Event
 	}
 }

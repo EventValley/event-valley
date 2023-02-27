@@ -1,4 +1,4 @@
-export type Maybe<T> = T | null;
+export type Maybe<T> = T | undefined;
 export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = { [K in keyof T]: T[K] };
 export type MakeOptional<T, K extends keyof T> = Omit<T, K> & { [SubKey in K]?: Maybe<T[SubKey]> };
@@ -90,6 +90,7 @@ export type EventOptions = {
   cursor?: InputMaybe<Scalars['Int']>;
   filter?: InputMaybe<EventFilter>;
   orderBy?: InputMaybe<EventOrderBy>;
+  personal?: InputMaybe<Scalars['Boolean']>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
 };
@@ -161,8 +162,6 @@ export type Group = {
   createdAt: Scalars['String'];
   creatorId: Scalars['String'];
   description: Scalars['String'];
-  events?: Maybe<Array<Maybe<Event>>>;
-  groupUsers?: Maybe<Array<Maybe<GroupUser>>>;
   id: Scalars['ID'];
   logo: Scalars['String'];
   modifiedAt: Scalars['String'];
@@ -184,13 +183,17 @@ export type GroupBannedUser = {
 };
 
 export type GroupFilter = {
-  where?: InputMaybe<GroupWhereFilter>;
+  createdAt?: InputMaybe<DateOperators>;
+  id?: InputMaybe<IdOperators>;
+  name?: InputMaybe<StringOperators>;
+  updatedAt?: InputMaybe<DateOperators>;
 };
 
 export type GroupOptions = {
   cursor?: InputMaybe<Scalars['Int']>;
   filter?: InputMaybe<GroupFilter>;
   orderBy?: InputMaybe<GroupOrderBy>;
+  personal?: InputMaybe<Scalars['Boolean']>;
   skip?: InputMaybe<Scalars['Int']>;
   take?: InputMaybe<Scalars['Int']>;
 };
@@ -242,11 +245,23 @@ export type GroupUser = {
   userId: Scalars['String'];
 };
 
-export type GroupWhereFilter = {
-  createdAt?: InputMaybe<DateOperators>;
-  id?: InputMaybe<IdOperators>;
-  name?: InputMaybe<StringOperators>;
-  updatedAt?: InputMaybe<DateOperators>;
+export type GroupWithRelations = {
+  __typename?: 'GroupWithRelations';
+  banner: Scalars['String'];
+  city?: Maybe<Scalars['String']>;
+  country?: Maybe<Scalars['String']>;
+  createdAt: Scalars['String'];
+  creatorId: Scalars['String'];
+  description: Scalars['String'];
+  events?: Maybe<Array<Maybe<Event>>>;
+  groupUsers?: Maybe<Array<Maybe<GroupUser>>>;
+  id: Scalars['ID'];
+  logo: Scalars['String'];
+  modifiedAt: Scalars['String'];
+  name: Scalars['String'];
+  postalCode?: Maybe<Scalars['String']>;
+  region?: Maybe<Scalars['String']>;
+  slug: Scalars['String'];
 };
 
 export type IdOperators = {
@@ -344,14 +359,17 @@ export type Query = {
   eventRolePermissions: Array<Maybe<EventRolePermission>>;
   eventStatuses: Array<Maybe<EventStatus>>;
   events: Array<Maybe<Event>>;
-  group?: Maybe<Group>;
+  group?: Maybe<GroupWithRelations>;
   groupBannedUsers: Array<Maybe<GroupBannedUser>>;
   groupPermissions: Array<Maybe<GroupPermission>>;
   groupRolePermissions: Array<Maybe<GroupRolePermission>>;
   groupRoles: Array<Maybe<GroupRole>>;
   groupUsers?: Maybe<Array<Maybe<GroupUser>>>;
   groups: Array<Maybe<Group>>;
+  myEvents: Array<Maybe<Event>>;
+  myGroups: Array<Maybe<Group>>;
   permissions: Array<Maybe<Permission>>;
+  upcomingEvents: Array<Maybe<Event>>;
   user?: Maybe<User>;
   users?: Maybe<Array<Maybe<User>>>;
   venue?: Maybe<Venue>;
@@ -376,6 +394,16 @@ export type QueryGroupArgs = {
 
 
 export type QueryGroupsArgs = {
+  options?: InputMaybe<GroupOptions>;
+};
+
+
+export type QueryMyEventsArgs = {
+  options?: InputMaybe<EventOptions>;
+};
+
+
+export type QueryMyGroupsArgs = {
   options?: InputMaybe<GroupOptions>;
 };
 

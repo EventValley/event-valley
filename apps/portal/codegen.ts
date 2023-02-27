@@ -14,6 +14,9 @@ const codeGenConfig: CodegenConfig = {
 	generates: {
 		'./lib/graphql/graphql.tsx': {
 			plugins: ['typescript', 'typescript-operations', 'typescript-react-apollo'],
+			config: {
+				inlineFragmentTypes: 'combined',
+			},
 		},
 	},
 	hooks: {

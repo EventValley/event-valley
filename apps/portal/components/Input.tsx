@@ -20,7 +20,7 @@ const input = tv(
 				lg: [''],
 			},
 			error: {
-				true: ['border-red', 'text-red'],
+				true: ['border-red-1000', 'text-red-1000'],
 			},
 		},
 		defaultVariants: {
