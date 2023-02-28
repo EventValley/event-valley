@@ -1,5 +1,0 @@
-query myEvents($take: Int, $skip: Int) {
-	events(options: {personal: true, take: $take, skip: $skip}) {
-		...Event
-	}
-}

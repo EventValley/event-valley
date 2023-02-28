@@ -1,17 +1,23 @@
+import { useQuery } from '@apollo/client';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 
 import { Button } from '@/components/Button';
 import { Container } from '@/components/Container';
 import GroupsMembersList from '@/components/GroupMemerList';
-import { Event, Group, GroupUser, useGroupQuery } from '@/lib/graphql/graphql';
+import { GROUP } from '@/lib/graphql/queries';
 import { About, Events } from '@/modules/group/components';
+import { Event, Group, GroupFullFragment, GroupUser } from '@/types/GeneratedTypes';
+
+type GroupData = {
+	group: GroupFullFragment | null;
+};
 
 export const GroupPage = ({}) => {
 	const router = useRouter();
 	const { slug, show } = router.query;
 
-	const { data, loading, error } = useGroupQuery({
+	const { data, loading, error } = useQuery<GroupData>(GROUP, {
 		variables: {
 			slug: slug as string,
 		},

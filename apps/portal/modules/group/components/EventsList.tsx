@@ -1,8 +1,7 @@
 import { FC } from 'react';
 
 import { EventCard } from '@/components/EventCard';
-
-import { Event, Group } from '../../../lib/graphql/graphql';
+import { Event, Group } from '@/types/GeneratedTypes';
 
 interface EventsListProps {
 	group: Group;

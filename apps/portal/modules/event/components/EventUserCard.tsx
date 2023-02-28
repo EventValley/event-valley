@@ -1,6 +1,5 @@
 import { Text } from '@/components/Text';
-
-import { User } from '../../../lib/graphql/graphql';
+import { User } from '@/types/GeneratedTypes';
 
 export const EventUserCard = ({ user }: { user: User }) => {
 	return (

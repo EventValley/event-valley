@@ -1,9 +1,15 @@
+import { useQuery } from '@apollo/client';
 import Link from 'next/link';
 
-import { useGroupsQuery } from '../../lib/graphql/graphql';
+import { GROUPS } from '@/lib/graphql';
 
 export default function Index() {
-	const { data, loading, error } = useGroupsQuery();
+	const { data, loading, error } = useQuery(GROUPS, {
+		variables: {
+			take: 24,
+			skip: 0,
+		},
+	});
 
 	if (loading) return <p>Loading...</p>;
 	if (error) return <p>Error: {error.message}</p>;

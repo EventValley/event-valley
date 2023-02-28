@@ -1,5 +1,7 @@
-query upcomingEvens {
-	upcomingEvents {
+import { gql } from '@apollo/client';
+
+export const EventFragment = gql`
+	fragment Event on Event {
 		id
 		name
 		description
@@ -11,19 +13,21 @@ query upcomingEvens {
 		image
 		group {
 			id
-			name
 			slug
+			name
 			logo
+			banner
 		}
 		venue {
 			id
 			name
-			streetAddress
-			city
+			postalCode
 			region
 			country
+			city
+			streetAddress
 			latitude
 			longitude
 		}
 	}
-}
+`;

@@ -4,7 +4,7 @@ import { ApolloProvider } from '@apollo/client/react';
 import type { AppProps } from 'next/app';
 
 import Layout from '@/components/Layout';
-import { client } from '@/lib/graphql';
+import { client } from '@/lib/graphql/gqlClient';
 import { AuthContextProvider } from '@/modules/auth/store';
 
 export default function App({ Component, pageProps: { ...pageProps } }: AppProps) {

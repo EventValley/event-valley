@@ -2,8 +2,8 @@ import { button } from '@/components/Button';
 import { HStack } from '@/components/HStack';
 import { Text } from '@/components/Text';
 import { VStack } from '@/components/VStack';
-import { User } from '@/lib/graphql/graphql';
 import { signOut } from '@/lib/signOut';
+import { User } from '@/types/GeneratedTypes';
 
 export const UserDropdownNav = ({ user }: { user: User }) => {
 	return (

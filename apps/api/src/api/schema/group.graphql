@@ -80,7 +80,6 @@ input UpdateGroupInput {
 extend type Query {
 	group(id: ID, slug: String): GroupWithRelations
 	groups(options: GroupOptions): [Group]!
-	myGroups(options: GroupOptions): [Group]!
 }
 
 extend type Mutation {

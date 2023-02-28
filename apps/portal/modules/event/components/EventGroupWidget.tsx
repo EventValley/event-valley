@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { Group } from '../../../lib/graphql/graphql';
+import { Group } from '@/types/GeneratedTypes';
 
 type EventGroupWidgetProps = {
 	group: Group;

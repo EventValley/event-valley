@@ -1,5 +1,5 @@
 import { dateFormat } from '@/lib/dateFormat';
-import { EventFragment } from '@/lib/graphql/graphql';
+import { EventFragment } from '@/types/GeneratedTypes';
 
 export const groupEventsByDate = (events: EventFragment[]) => {
 	const groupedList: Record<string, EventFragment[]> = {};

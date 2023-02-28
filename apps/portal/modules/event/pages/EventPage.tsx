@@ -1,3 +1,4 @@
+import { useQuery } from '@apollo/client';
 import dayjs from 'dayjs';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
@@ -5,22 +6,27 @@ import { useRouter } from 'next/router';
 
 import { Container } from '@/components/Container';
 import { Stack } from '@/components/Stack';
-import { EventUser, Group, useEventQuery } from '@/lib/graphql/graphql';
+import { EVENT } from '@/lib/graphql';
 import { EventAddressWidget } from '@/modules/event/components/EventAddressWidget';
 import { EventAttendees } from '@/modules/event/components/EventAttendees';
 import { EventDateWidget } from '@/modules/event/components/EventDateWidget';
 import { EventDetails } from '@/modules/event/components/EventDetails';
 import { EventFooter } from '@/modules/event/components/EventFooter';
 import { EventGroupWidget } from '@/modules/event/components/EventGroupWidget';
+import { EventFullFragment, EventUser, Group } from '@/types/GeneratedTypes';
 
 dayjs.extend(utc);
 dayjs.extend(timezone);
+
+type EventData = {
+	event: EventFullFragment | null;
+};
 
 export const EventPage = () => {
 	const router = useRouter();
 	const { id } = router.query;
 
-	const { data, loading, error } = useEventQuery({
+	const { data, loading, error } = useQuery<EventData>(EVENT, {
 		variables: {
 			id: id as string,
 		},

@@ -4,11 +4,11 @@ import { EventCard } from '@/components/EventCard';
 import { Heading } from '@/components/Heading';
 import { Stack } from '@/components/Stack';
 import { dateFormat } from '@/lib/dateFormat';
-import { EventFragment } from '@/lib/graphql/graphql';
 import { groupEventsByDate } from '@/lib/groupEventsByDate';
+import { EventFragment } from '@/types/GeneratedTypes';
 
 type EventsListProps = {
-	events: EventFragment[];
+	events: EventFragment[] | [];
 };
 
 export const EventsList: FC<EventsListProps> = ({ events }) => {

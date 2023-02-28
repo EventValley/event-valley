@@ -72,8 +72,6 @@ input UpdateEventInput {
 extend type Query {
 	event(id: ID!): Event
 	events(options: EventOptions): [Event]!
-	myEvents(options: EventOptions): [Event]!
-	upcomingEvents: [Event]!
 }
 
 extend type Mutation {

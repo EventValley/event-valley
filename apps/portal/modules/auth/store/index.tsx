@@ -1,7 +1,8 @@
+import { useQuery } from '@apollo/client';
 import Cookies from 'js-cookie';
 import { createContext, ReactNode, useContext, useEffect, useState } from 'react';
 
-import { useUserQuery } from '../../../lib/graphql/graphql';
+import { USER } from '@/lib/graphql';
 
 export type AuthContextType = {
 	data: {
@@ -23,7 +24,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
 		isAuthenticated: false,
 		user: null,
 	});
-	const { loading, error, data: userData } = useUserQuery({ skip: !Cookies.get('ev') });
+	const { loading, error, data: userData } = useQuery(USER, { skip: !Cookies.get('ev') });
 
 	useEffect(() => {
 		if (!loading && !error) {
@@ -32,8 +33,6 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
 				isAuthenticated: !!userData?.user,
 				user: userData?.user,
 			});
-
-			console.log('error', error);
 		}
 	}, [loading, userData, error]);
 

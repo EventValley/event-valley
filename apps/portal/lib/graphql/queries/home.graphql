@@ -1,8 +1,0 @@
-query home {
-	myGroups(options: { take: 4 }) {
-		...GroupFragment
-	}
-	events(options: {personal: true, take: 12, skip: 0}) {
-		...Event
-	}
-}

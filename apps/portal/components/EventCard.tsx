@@ -3,7 +3,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { FC } from 'react';
 
-import { EventFragment } from '@/lib/graphql/graphql';
+import { EventFragment } from '@/types/GeneratedTypes';
 
 interface EventCardProps {
 	slug?: string;

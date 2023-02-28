@@ -1,5 +1,7 @@
-query event($id: ID!) {
-	event(id: $id) {
+import { gql } from '@apollo/client';
+
+export const EventFullFragment = gql`
+	fragment EventFull on Event {
 		id
 		name
 		description
@@ -41,4 +43,4 @@ query event($id: ID!) {
 			longitude
 		}
 	}
-}
+`;

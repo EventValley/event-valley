@@ -1,7 +1,7 @@
 import { gql } from '@apollo/client';
 
 export const GroupFullFragment = gql`
-	fragment GroupFullFragment on GroupWithRelations {
+	fragment GroupFull on GroupWithRelations {
 		id
 		name
 		slug

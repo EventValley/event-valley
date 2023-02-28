@@ -1,23 +1,31 @@
+import { useQuery } from '@apollo/client';
+
 import { Container } from '@/components/Container';
 import { EventsList } from '@/components/EventsList';
 import { Heading } from '@/components/Heading';
 import { Stack } from '@/components/Stack';
-import { useHomeQuery } from '@/lib/graphql/graphql';
+import { HOME } from '@/lib/graphql';
 import { notEmpty } from '@/lib/noEmpty';
 import { useAuth } from '@/modules/auth/store';
 import { CalendarWidget } from '@/modules/home/components/CalendarWidget';
 import { MyGroupsWidget } from '@/modules/home/components/MyGroupsWidget';
+import { EventFragment, GroupFragment } from '@/types/GeneratedTypes';
+
+type HomeData = {
+	groups: GroupFragment[];
+	events: EventFragment[];
+};
 
 export const HomePage = () => {
 	const {
 		data: { user },
 	} = useAuth();
-	const { loading, data } = useHomeQuery();
+	const { loading, data } = useQuery<HomeData>(HOME);
 
 	if (loading) return <div>Loading...</div>;
 	if (!data) return <div>No Data</div>;
 
-	const { myGroups } = data;
+	const { groups } = data;
 	const events = data.events.filter(notEmpty);
 
 	return (
@@ -32,7 +40,7 @@ export const HomePage = () => {
 				</Stack>
 				<Stack className="flex flex-col gap-48 w-3/12 flex-shrink-0">
 					<CalendarWidget />
-					<MyGroupsWidget groups={myGroups} />
+					<MyGroupsWidget groups={groups} />
 				</Stack>
 			</Stack>
 		</Container>

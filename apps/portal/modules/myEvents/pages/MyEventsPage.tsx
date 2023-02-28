@@ -1,19 +1,30 @@
+import { useQuery } from '@apollo/client';
+
 import { Container } from '@/components/Container';
 import { EventsList } from '@/components/EventsList';
 import { Heading } from '@/components/Heading';
 import { Stack } from '@/components/Stack';
-import { EventFragment, useMyEventsQuery } from '@/lib/graphql/graphql';
-import { notEmpty } from '@/lib/noEmpty';
+import { MY_EVENTS } from '@/lib/graphql';
 import { CalendarWidget } from '@/modules/home/components/CalendarWidget';
+import { EventFragment } from '@/types/GeneratedTypes';
+
+type MyEventsData = {
+	events: EventFragment[] | [];
+};
 
 export const MyEventsPage = () => {
-	const { loading, error, data } = useMyEventsQuery();
+	const { loading, error, data } = useQuery<MyEventsData>(MY_EVENTS, {
+		variables: {
+			take: 24,
+			skip: 0,
+		},
+	});
 
 	if (loading) return <p>Loading...</p>;
 	if (error) return <p>Error: {error.message}</p>;
 	if (!data || !data.events) return <p>Not found</p>;
 
-	const events: EventFragment[] = data.events.filter(notEmpty);
+	const { events } = data;
 
 	return (
 		<Container className="flex flex-col gap-48">

@@ -1,8 +1,7 @@
 import { FC } from 'react';
 
 import { EventUserCard } from '@/modules/event/components/EventUserCard';
-
-import { EventUser } from '../../../lib/graphql/graphql';
+import { EventUser } from '@/types/GeneratedTypes';
 
 type EventAttendeesProps = {
 	users?: EventUser[] | null;

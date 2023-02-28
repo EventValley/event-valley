@@ -1,9 +1,0 @@
-query myGroups {
-	myGroups {
-		id
-		name
-		slug
-		logo
-		banner
-	}
-}

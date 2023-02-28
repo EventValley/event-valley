@@ -3,8 +3,7 @@ import { FC } from 'react';
 import { Text } from '@/components/Text';
 import { UserGrid } from '@/components/UserGrid';
 import { UserList } from '@/components/UserList';
-
-import { GroupUser } from '../../../lib/graphql/graphql';
+import { GroupUser } from '@/types/GeneratedTypes';
 
 interface AboutProps {
 	content?: string | null;

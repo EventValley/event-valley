@@ -1,12 +1,13 @@
 import { gql } from '@apollo/client';
 
+import { GroupFragment } from '@/lib/graphql';
+
 export const GROUPS = gql`
-	query groups {
-		groups {
-			id
-			name
-			slug
-			description
+	${GroupFragment}
+
+	query groups($take: Int, $skip: Int) {
+		groups(options: { take: $take, skip: $skip }) {
+			...Group
 		}
 	}
 `;
