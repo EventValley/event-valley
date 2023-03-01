@@ -83,6 +83,7 @@ export type EventFilter = {
 	groupId?: InputMaybe<Scalars['String']>;
 	id?: InputMaybe<IdOperators>;
 	name?: InputMaybe<StringOperators>;
+	startsAt?: InputMaybe<DateOperators>;
 	updatedAt?: InputMaybe<DateOperators>;
 };
 
@@ -97,6 +98,7 @@ export type EventOptions = {
 
 export type EventOrderBy = {
 	createdAt?: InputMaybe<OrderDirection>;
+	startsAt?: InputMaybe<OrderDirection>;
 };
 
 export type EventPermission = {
@@ -356,10 +358,7 @@ export type Query = {
 	groupRoles: Array<Maybe<GroupRole>>;
 	groupUsers?: Maybe<Array<Maybe<GroupUser>>>;
 	groups: Array<Maybe<Group>>;
-	myEvents: Array<Maybe<Event>>;
-	myGroups: Array<Maybe<Group>>;
 	permissions: Array<Maybe<Permission>>;
-	upcomingEvents: Array<Maybe<Event>>;
 	user?: Maybe<User>;
 	users?: Maybe<Array<Maybe<User>>>;
 	venue?: Maybe<Venue>;
@@ -380,14 +379,6 @@ export type QueryGroupArgs = {
 };
 
 export type QueryGroupsArgs = {
-	options?: InputMaybe<GroupOptions>;
-};
-
-export type QueryMyEventsArgs = {
-	options?: InputMaybe<EventOptions>;
-};
-
-export type QueryMyGroupsArgs = {
 	options?: InputMaybe<GroupOptions>;
 };
 
@@ -743,18 +734,33 @@ export type GroupQuery = {
 	} | null;
 };
 
-export type GroupsQueryVariables = Exact<{ [key: string]: never }>;
+export type GroupsQueryVariables = Exact<{
+	take?: InputMaybe<Scalars['Int']>;
+	skip?: InputMaybe<Scalars['Int']>;
+}>;
 
 export type GroupsQuery = {
 	__typename?: 'Query';
-	groups: Array<{ __typename?: 'Group'; id: string; name: string; slug: string; description: string } | null>;
+	groups: Array<{
+		__typename?: 'Group';
+		id: string;
+		name: string;
+		slug: string;
+		description: string;
+		city?: string | null;
+		postalCode?: string | null;
+		region?: string | null;
+		country?: string | null;
+		logo: string;
+		banner: string;
+	} | null>;
 };
 
 export type HomeQueryVariables = Exact<{ [key: string]: never }>;
 
 export type HomeQuery = {
 	__typename?: 'Query';
-	myGroups: Array<{
+	groups: Array<{
 		__typename?: 'Group';
 		id: string;
 		name: string;

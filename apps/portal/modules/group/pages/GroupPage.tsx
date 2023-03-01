@@ -7,7 +7,7 @@ import { Container } from '@/components/Container';
 import GroupsMembersList from '@/components/GroupMemerList';
 import { GROUP } from '@/lib/graphql/queries';
 import { About, Events } from '@/modules/group/components';
-import { Event, Group, GroupFullFragment, GroupUser } from '@/types/GeneratedTypes';
+import { GroupFullFragment, GroupUser } from '@/types/GeneratedTypes';
 
 type GroupData = {
 	group: GroupFullFragment | null;
@@ -30,7 +30,7 @@ export const GroupPage = ({}) => {
 	const Content = () => {
 		switch (show) {
 			case 'events':
-				return <Events group={data.group as Group} events={data.group?.events as Event[]} />;
+				return <Events groupId={data?.group?.id as string} />;
 			case 'members':
 				return <GroupsMembersList users={data.group?.groupUsers} />;
 			default:

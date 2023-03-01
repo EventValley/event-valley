@@ -83,6 +83,7 @@ export type EventFilter = {
   groupId?: InputMaybe<Scalars['String']>;
   id?: InputMaybe<IdOperators>;
   name?: InputMaybe<StringOperators>;
+  startsAt?: InputMaybe<DateOperators>;
   updatedAt?: InputMaybe<DateOperators>;
 };
 
@@ -97,6 +98,7 @@ export type EventOptions = {
 
 export type EventOrderBy = {
   createdAt?: InputMaybe<OrderDirection>;
+  startsAt?: InputMaybe<OrderDirection>;
 };
 
 export type EventPermission = {
@@ -366,10 +368,7 @@ export type Query = {
   groupRoles: Array<Maybe<GroupRole>>;
   groupUsers?: Maybe<Array<Maybe<GroupUser>>>;
   groups: Array<Maybe<Group>>;
-  myEvents: Array<Maybe<Event>>;
-  myGroups: Array<Maybe<Group>>;
   permissions: Array<Maybe<Permission>>;
-  upcomingEvents: Array<Maybe<Event>>;
   user?: Maybe<User>;
   users?: Maybe<Array<Maybe<User>>>;
   venue?: Maybe<Venue>;
@@ -394,16 +393,6 @@ export type QueryGroupArgs = {
 
 
 export type QueryGroupsArgs = {
-  options?: InputMaybe<GroupOptions>;
-};
-
-
-export type QueryMyEventsArgs = {
-  options?: InputMaybe<EventOptions>;
-};
-
-
-export type QueryMyGroupsArgs = {
   options?: InputMaybe<GroupOptions>;
 };
 

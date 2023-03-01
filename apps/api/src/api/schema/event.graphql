@@ -25,12 +25,14 @@ input EventFilter {
 	id: IDOperators
 	name: StringOperators
 	groupId: String
+	startsAt: DateOperators
 	createdAt: DateOperators
 	updatedAt: DateOperators
 }
 
 input EventOrderBy {
 	createdAt: OrderDirection
+	startsAt: OrderDirection
 }
 
 input EventOptions {

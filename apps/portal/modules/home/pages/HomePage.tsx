@@ -4,8 +4,8 @@ import { Container } from '@/components/Container';
 import { EventsList } from '@/components/EventsList';
 import { Heading } from '@/components/Heading';
 import { Stack } from '@/components/Stack';
+import { dateFormat } from '@/lib/dateFormat';
 import { HOME } from '@/lib/graphql';
-import { notEmpty } from '@/lib/noEmpty';
 import { useAuth } from '@/modules/auth/store';
 import { CalendarWidget } from '@/modules/home/components/CalendarWidget';
 import { MyGroupsWidget } from '@/modules/home/components/MyGroupsWidget';
@@ -20,13 +20,26 @@ export const HomePage = () => {
 	const {
 		data: { user },
 	} = useAuth();
-	const { loading, data } = useQuery<HomeData>(HOME);
+
+	const { loading, data } = useQuery<HomeData>(HOME, {
+		variables: {
+			eventOptions: {
+				filter: {
+					startsAt: {
+						gt: dateFormat(new Date()).format('YYYY-MM-DD HH:mm'),
+					},
+				},
+				personal: true,
+				take: 12,
+				skip: 0,
+			},
+		},
+	});
 
 	if (loading) return <div>Loading...</div>;
 	if (!data) return <div>No Data</div>;
 
-	const { groups } = data;
-	const events = data.events.filter(notEmpty);
+	const { events, groups } = data;
 
 	return (
 		<Container className="flex flex-col gap-48">
