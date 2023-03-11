@@ -1,39 +1,27 @@
-import { GraphQLError } from 'graphql/index';
-
+import { sendErrorCode } from '../../../lib/sendErrorCode';
 import { ApiContext } from '../../../types/ApiContext';
-import { QueryGroupArgs } from '../../../types/ApiTypes';
+import { QueryGroupArgs } from '../../../types/GeneratedTypes';
 
 export const group = async (parent: unknown, { id, slug }: QueryGroupArgs, { db }: ApiContext) => {
 	if (!id && !slug) {
-		throw new GraphQLError('Invalid argument value', {
-			extensions: {
-				code: 'BAD_USER_INPUT',
-			},
-		});
+		sendErrorCode({ code: 'BAD_USER_INPUT', message: 'Invalid argument values' });
+		return;
 	}
 
-	return db.group.findUnique({
-		where: {
-			id: id || undefined,
-			slug: slug || undefined,
-		},
-		include: {
-			events: {
-				where: {
-					AND: [{ canceled: false }, { endsAt: { gt: new Date() } }],
-				},
-				orderBy: { startsAt: 'asc' },
-				include: {
-					venue: true,
-				},
+	try {
+		const group = await db.group.findUnique({
+			where: {
+				id: id || undefined,
+				slug: slug || undefined,
 			},
+		});
 
-			groupUsers: {
-				include: {
-					user: true,
-					groupRole: true,
-				},
-			},
-		},
-	});
+		if (!group) {
+			return sendErrorCode({ code: 'BAD_USER_INPUT', message: 'Group not found' });
+		}
+
+		return group;
+	} catch (error) {
+		return sendErrorCode({ code: 'INTERNAL_SERVER_ERROR', message: 'Internal server error' });
+	}
 };

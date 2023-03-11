@@ -63,7 +63,9 @@ export const createEventUsers = async (
 		const matchingGroupUsers = groupUsers.filter((groupUser) => groupUser.groupId === event.groupId);
 
 		if (matchingGroupUsers.length > 0) {
-			const max = faker.datatype.number({ min: 1, max: matchingGroupUsers.length });
+			const max = event.capacity
+				? event.capacity
+				: faker.datatype.number({ min: 1, max: matchingGroupUsers.length });
 			const usersForEvent = helpers.arrayElements(helpers.shuffle(matchingGroupUsers), max);
 
 			usersForEvent.forEach((currentGroupUser) => {

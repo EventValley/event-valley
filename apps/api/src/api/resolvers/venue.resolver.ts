@@ -1,14 +1,14 @@
-import db from '../../lib/db';
+import { ApiContext } from '../../types/ApiContext';
 import {
 	MutationCreateVenueArgs,
 	MutationUpdateVenueArgs,
 	QueryVenueArgs,
 	QueryVenuesArgs,
-} from '../../types/ApiTypes';
+} from '../../types/GeneratedTypes';
 
 export const venueResolver = {
 	Query: {
-		venue: async (parent: unknown, { id }: QueryVenueArgs) => {
+		venue: async (parent: unknown, { id }: QueryVenueArgs, { db }: ApiContext) => {
 			return db.venue.findUnique({
 				where: {
 					id,
@@ -16,7 +16,7 @@ export const venueResolver = {
 			});
 		},
 
-		venues: async (parent: unknown, { options }: QueryVenuesArgs) => {
+		venues: async (parent: unknown, { options }: QueryVenuesArgs, { db }: ApiContext) => {
 			return db.venue.findMany({
 				where: {
 					...(options && options.filter),
@@ -27,12 +27,12 @@ export const venueResolver = {
 		},
 	},
 	Mutation: {
-		createVenue: async (parent: unknown, { input }: MutationCreateVenueArgs) => {
+		createVenue: async (parent: unknown, { input }: MutationCreateVenueArgs, { db }: ApiContext) => {
 			return db.venue.create({
 				data: input,
 			});
 		},
-		updateVenue: async (parent: unknown, { input }: MutationUpdateVenueArgs) => {
+		updateVenue: async (parent: unknown, { input }: MutationUpdateVenueArgs, { db }: ApiContext) => {
 			return db.venue.update({
 				where: {
 					id: input.id,

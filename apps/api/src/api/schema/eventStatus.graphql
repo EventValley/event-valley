@@ -1,7 +1,6 @@
 type EventStatus {
 	id: ID!
 	name: String!
-	events: [Event]!
 	createdAt: String!
 	modifiedAt: String!
 }

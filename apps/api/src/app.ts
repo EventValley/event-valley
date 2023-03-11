@@ -1,4 +1,3 @@
-import fastifyAuth from '@fastify/auth';
 import cookie from '@fastify/cookie';
 import Fastify, { FastifyInstance } from 'fastify';
 import { serializerCompiler, validatorCompiler } from 'fastify-type-provider-zod';
@@ -27,7 +26,6 @@ fastify.setSerializerCompiler(serializerCompiler);
 			parseOptions: {},
 		});
 		await fastify.register(app);
-		await fastify.register(fastifyAuth);
 		await fastify.register(auth);
 		// fastify.after(routes);
 

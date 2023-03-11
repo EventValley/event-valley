@@ -2,7 +2,7 @@ import { FastifyInstance } from 'fastify';
 import { ZodTypeProvider } from 'fastify-type-provider-zod';
 
 import { config } from '../../../config';
-import db from '../../../lib/db';
+import { prisma } from '../../../lib/db';
 import { signUpSchema } from '../../../schemas/signInSchema';
 import { queues } from '../../queue';
 import { NOTIFICATION_TYPE } from '../../queue/notification';
@@ -13,13 +13,17 @@ export const signUp = async (fastify: FastifyInstance) => {
 		method: 'POST',
 		url: '/sign-up',
 		schema: signUpSchema,
-		handler: async (request, reply) => {
+		handler: async (request: any, reply) => {
 			try {
 				const { email } = request.body;
 
-				const role = await db.role.findFirst({ where: { name: 'Member' } });
+				const role = await prisma.role.findFirst({ where: { name: 'Member' } });
 
-				const user = await db.user.create({
+				if (!role) {
+					throw new Error('Role not found');
+				}
+
+				const user = await prisma.user.create({
 					data: {
 						name: '',
 						email,

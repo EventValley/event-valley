@@ -6,13 +6,15 @@ enum OrderDirection {
 	desc
 }
 
+directive @hasRole(role: String!) on FIELD_DEFINITION
+
 input IDOperators {
-	equals: String
-	not: String
-	in: [String!]
-	notIn: [String!]
-	contains: String
-	search: String
+	equals: ID
+	not: ID
+	in: [ID!]
+	notIn: [ID!]
+	contains: ID
+	search: ID
 }
 
 input StringOperators {

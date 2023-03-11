@@ -1,6 +1,13 @@
 type GroupRole {
 	id: ID!
 	name: String!
+	createdAt: String!
+	modifiedAt: String!
+}
+
+type GroupRoleWithRelations {
+	id: ID!
+	name: String!
 	groupUsers: [GroupUser]
 	groupRolePermissions: [GroupRolePermission]
 	createdAt: String!
@@ -8,5 +15,6 @@ type GroupRole {
 }
 
 extend type Query {
-	groupRoles: [GroupRole]!
+	groupRoles: [GroupRoleWithRelations]! @hasRole(role: "Organizer")
+	myGroupRole(groupId: ID, groupSlug: String): GroupRole
 }

@@ -9,5 +9,5 @@ type EventBannedUser {
 }
 
 extend type Query {
-	eventBannedUsers: [EventBannedUser]!
+	eventBannedUsers: [EventBannedUser]! @hasRole(role: "Organizer")
 }

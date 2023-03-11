@@ -10,11 +10,36 @@ type GroupUser {
 	modifiedAt: String!
 }
 
-extend type Query {
-	groupUsers: [GroupUser]
+type PublicGroupUser {
+	id: ID!
+	userId: String!
+	user: User!
+	groupId: String!
+	group: Group!
+	groupRoleId: String!
+	groupRole: GroupRole!
+	createdAt: String!
+	modifiedAt: String!
 }
 
-extend type Mutation {
-	joinGroup(groupId: ID!): GroupUser
-	leaveGroup(groupId: ID!): GroupUser
+input GroupUserFilter {
+	groupId: IDOperators
+	groupSlug: String
+	groupRoleName: String
+}
+
+input GroupUserOrderBy {
+	createdAt: OrderDirection
+}
+
+input GroupUserOptions {
+	filter: GroupUserFilter
+	take: Int
+	skip: Int
+	orderBy: GroupUserOrderBy
+}
+
+extend type Query {
+	groupUsers(options: GroupUserOptions): [PublicGroupUser]!
+	groupUsersCount(groupId: ID, groupSlug: String): Int!
 }

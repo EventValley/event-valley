@@ -7,12 +7,12 @@ CREATE TABLE "Event" (
     "streamUrl" TEXT,
     "startsAt" TIMESTAMPTZ(0) NOT NULL,
     "endsAt" TIMESTAMPTZ(0) NOT NULL,
-    "capacity" INTEGER NOT NULL,
-    "inviteOnly" BOOLEAN NOT NULL,
-    "canceled" BOOLEAN NOT NULL,
+    "capacity" INTEGER,
+    "inviteOnly" BOOLEAN,
+    "canceled" BOOLEAN,
     "image" TEXT NOT NULL,
     "groupId" TEXT NOT NULL,
-    "venueId" TEXT NOT NULL,
+    "venueId" TEXT,
     "statusId" TEXT NOT NULL,
     "createdAt" TIMESTAMPTZ(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "modifiedAt" TIMESTAMPTZ(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
@@ -42,6 +42,18 @@ CREATE TABLE "EventPermission" (
 );
 
 -- CreateTable
+CREATE TABLE "EventPhoto" (
+    "id" TEXT NOT NULL,
+    "url" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "eventId" TEXT NOT NULL,
+    "createdAt" TIMESTAMPTZ(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "modifiedAt" TIMESTAMPTZ(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "EventPhoto_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "EventRole" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
@@ -60,6 +72,22 @@ CREATE TABLE "EventRolePermission" (
     "modifiedAt" TIMESTAMPTZ(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "EventRolePermission_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "EventStats" (
+    "id" TEXT NOT NULL,
+    "views" INTEGER NOT NULL DEFAULT 0,
+    "attending" INTEGER NOT NULL DEFAULT 0,
+    "notAttending" INTEGER NOT NULL DEFAULT 0,
+    "waiting" INTEGER NOT NULL DEFAULT 0,
+    "ticketsSold" INTEGER NOT NULL,
+    "salesValue" INTEGER NOT NULL,
+    "eventId" TEXT NOT NULL,
+    "createdAt" TIMESTAMPTZ(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "modifiedAt" TIMESTAMPTZ(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "EventStats_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -128,6 +156,18 @@ CREATE TABLE "GroupPermission" (
 );
 
 -- CreateTable
+CREATE TABLE "GroupPhoto" (
+    "id" TEXT NOT NULL,
+    "url" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "groupId" TEXT NOT NULL,
+    "createdAt" TIMESTAMPTZ(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "modifiedAt" TIMESTAMPTZ(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "GroupPhoto_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
 CREATE TABLE "GroupRole" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
@@ -158,6 +198,46 @@ CREATE TABLE "GroupUser" (
     "modifiedAt" TIMESTAMPTZ(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "GroupUser_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "Order" (
+    "id" TEXT NOT NULL,
+    "notes" TEXT,
+    "amount" DOUBLE PRECISION NOT NULL,
+    "discount" DOUBLE PRECISION NOT NULL,
+    "taxAmount" DOUBLE PRECISION NOT NULL,
+    "paymentIntent" TEXT,
+    "transactionId" TEXT,
+    "statusId" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "createdAt" TIMESTAMPTZ(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "modifiedAt" TIMESTAMPTZ(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Order_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "OrderItem" (
+    "id" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "quantity" INTEGER NOT NULL,
+    "unitPrice" DOUBLE PRECISION NOT NULL,
+    "orderId" TEXT NOT NULL,
+    "createdAt" TIMESTAMPTZ(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "modifiedAt" TIMESTAMPTZ(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "OrderItem_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "OrderStatus" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "createdAt" TIMESTAMPTZ(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "modifiedAt" TIMESTAMPTZ(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "OrderStatus_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -205,23 +285,65 @@ CREATE TABLE "rsvp" (
 CREATE TABLE "Session" (
     "id" TEXT NOT NULL,
     "sessionToken" TEXT NOT NULL,
-    "userId" TEXT NOT NULL,
     "expires" TIMESTAMP(3) NOT NULL,
+    "userId" TEXT NOT NULL,
 
     CONSTRAINT "Session_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
-CREATE TABLE "User" (
+CREATE TABLE "Ticket" (
+    "id" TEXT NOT NULL,
+    "title" TEXT NOT NULL,
+    "description" TEXT NOT NULL,
+    "price" DOUBLE PRECISION NOT NULL,
+    "maxPerPerson" INTEGER NOT NULL,
+    "minPerPerson" INTEGER NOT NULL,
+    "quantityAvailable" INTEGER NOT NULL,
+    "quantitySold" INTEGER NOT NULL,
+    "startSaleDate" TIMESTAMPTZ(0) NOT NULL,
+    "endSaleDate" TIMESTAMPTZ(0) NOT NULL,
+    "published" BOOLEAN NOT NULL,
+    "eventId" TEXT NOT NULL,
+    "createdAt" TIMESTAMPTZ(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "modifiedAt" TIMESTAMPTZ(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "Ticket_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "TicketOrder" (
+    "id" TEXT NOT NULL,
+    "ticketId" TEXT NOT NULL,
+    "orderId" TEXT NOT NULL,
+    "quantity" INTEGER NOT NULL,
+    "createdAt" TIMESTAMPTZ(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "modifiedAt" TIMESTAMPTZ(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "TicketOrder_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "TicketStatus" (
     "id" TEXT NOT NULL,
     "name" TEXT NOT NULL,
+    "createAt" TIMESTAMPTZ(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "modifiedAt" TIMESTAMPTZ(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "TicketStatus_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "User" (
+    "id" TEXT NOT NULL,
+    "name" TEXT,
     "email" TEXT NOT NULL,
     "emailVerified" TIMESTAMPTZ(0),
     "image" TEXT,
     "birthdate" TIMESTAMPTZ(0),
     "phoneNumber" TEXT,
     "lastSeen" TIMESTAMP(3) DEFAULT CURRENT_TIMESTAMP,
-    "roleId" TEXT NOT NULL,
+    "roleId" TEXT,
     "createdAt" TIMESTAMPTZ(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "modifiedAt" TIMESTAMPTZ(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
@@ -246,6 +368,22 @@ CREATE TABLE "UserAccount" (
     "modifiedAt" TIMESTAMPTZ(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "UserAccount_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateTable
+CREATE TABLE "UserBillingAddress" (
+    "id" TEXT NOT NULL,
+    "name" TEXT NOT NULL,
+    "address" TEXT NOT NULL,
+    "city" TEXT NOT NULL,
+    "postalCode" TEXT NOT NULL,
+    "region" TEXT NOT NULL,
+    "country" TEXT NOT NULL,
+    "userId" TEXT NOT NULL,
+    "createdAt" TIMESTAMPTZ(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    "modifiedAt" TIMESTAMPTZ(0) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "UserBillingAddress_pkey" PRIMARY KEY ("id")
 );
 
 -- CreateTable
@@ -289,6 +427,9 @@ CREATE UNIQUE INDEX "event_permission_id_uindex" ON "EventPermission"("id");
 CREATE UNIQUE INDEX "EventPermission_name_key" ON "EventPermission"("name");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "event_photo_id_uindex" ON "EventPhoto"("id");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "event_role_id_uindex" ON "EventRole"("id");
 
 -- CreateIndex
@@ -299,6 +440,9 @@ CREATE UNIQUE INDEX "event_role_permission_id_uindex" ON "EventRolePermission"("
 
 -- CreateIndex
 CREATE UNIQUE INDEX "EventRolePermission_eventRoleId_eventPermissionId_key" ON "EventRolePermission"("eventRoleId", "eventPermissionId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "event_stats_id_uindex" ON "EventStats"("id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "event_status_id_uindex" ON "EventStatus"("id");
@@ -334,6 +478,9 @@ CREATE UNIQUE INDEX "group_permission_id_uindex" ON "GroupPermission"("id");
 CREATE UNIQUE INDEX "GroupPermission_name_key" ON "GroupPermission"("name");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "group_photo_id_uindex" ON "GroupPhoto"("id");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "group_role_id_uindex" ON "GroupRole"("id");
 
 -- CreateIndex
@@ -350,6 +497,18 @@ CREATE UNIQUE INDEX "group_user_id_uindex" ON "GroupUser"("id");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "GroupUser_userId_groupId_key" ON "GroupUser"("userId", "groupId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "order_id_uindex" ON "Order"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "order_item_id_uindex" ON "OrderItem"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "order_status_id_uindex" ON "OrderStatus"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "OrderStatus_name_key" ON "OrderStatus"("name");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "permission_id_uindex" ON "Permission"("id");
@@ -382,6 +541,15 @@ CREATE UNIQUE INDEX "session_id_uindex" ON "Session"("id");
 CREATE UNIQUE INDEX "Session_sessionToken_key" ON "Session"("sessionToken");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "ticket_id_uindex" ON "Ticket"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "ticket_order_id_uindex" ON "TicketOrder"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "ticket_status_id_uindex" ON "TicketStatus"("id");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "user_id_uindex" ON "User"("id");
 
 -- CreateIndex
@@ -397,6 +565,9 @@ CREATE UNIQUE INDEX "user_account_id_uindex" ON "UserAccount"("id");
 CREATE UNIQUE INDEX "UserAccount_provider_providerAccountId_key" ON "UserAccount"("provider", "providerAccountId");
 
 -- CreateIndex
+CREATE UNIQUE INDEX "user_billing_address_id_uindex" ON "UserBillingAddress"("id");
+
+-- CreateIndex
 CREATE UNIQUE INDEX "venue_id_uindex" ON "Venue"("id");
 
 -- CreateIndex
@@ -409,7 +580,7 @@ CREATE UNIQUE INDEX "VerificationToken_identifier_token_key" ON "VerificationTok
 ALTER TABLE "Event" ADD CONSTRAINT "Event_groupId_fkey" FOREIGN KEY ("groupId") REFERENCES "Group"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "Event" ADD CONSTRAINT "Event_venueId_fkey" FOREIGN KEY ("venueId") REFERENCES "Venue"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Event" ADD CONSTRAINT "Event_venueId_fkey" FOREIGN KEY ("venueId") REFERENCES "Venue"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Event" ADD CONSTRAINT "Event_statusId_fkey" FOREIGN KEY ("statusId") REFERENCES "EventStatus"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -421,10 +592,16 @@ ALTER TABLE "EventBannedUser" ADD CONSTRAINT "EventBannedUser_eventId_fkey" FORE
 ALTER TABLE "EventBannedUser" ADD CONSTRAINT "EventBannedUser_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "EventPhoto" ADD CONSTRAINT "EventPhoto_eventId_fkey" FOREIGN KEY ("eventId") REFERENCES "Event"("id") ON DELETE CASCADE ON UPDATE NO ACTION;
+
+-- AddForeignKey
 ALTER TABLE "EventRolePermission" ADD CONSTRAINT "EventRolePermission_eventRoleId_fkey" FOREIGN KEY ("eventRoleId") REFERENCES "EventRole"("id") ON DELETE CASCADE ON UPDATE NO ACTION;
 
 -- AddForeignKey
 ALTER TABLE "EventRolePermission" ADD CONSTRAINT "EventRolePermission_eventPermissionId_fkey" FOREIGN KEY ("eventPermissionId") REFERENCES "EventPermission"("id") ON DELETE CASCADE ON UPDATE NO ACTION;
+
+-- AddForeignKey
+ALTER TABLE "EventStats" ADD CONSTRAINT "EventStats_eventId_fkey" FOREIGN KEY ("eventId") REFERENCES "Event"("id") ON DELETE CASCADE ON UPDATE NO ACTION;
 
 -- AddForeignKey
 ALTER TABLE "EventUser" ADD CONSTRAINT "EventUser_eventId_fkey" FOREIGN KEY ("eventId") REFERENCES "Event"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -445,6 +622,9 @@ ALTER TABLE "GroupBannedUser" ADD CONSTRAINT "GroupBannedUser_groupId_fkey" FORE
 ALTER TABLE "GroupBannedUser" ADD CONSTRAINT "GroupBannedUser_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "GroupPhoto" ADD CONSTRAINT "GroupPhoto_groupId_fkey" FOREIGN KEY ("groupId") REFERENCES "Group"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "GroupRolePermission" ADD CONSTRAINT "GroupRolePermission_groupRoleId_fkey" FOREIGN KEY ("groupRoleId") REFERENCES "GroupRole"("id") ON DELETE CASCADE ON UPDATE NO ACTION;
 
 -- AddForeignKey
@@ -460,6 +640,15 @@ ALTER TABLE "GroupUser" ADD CONSTRAINT "GroupUser_groupId_fkey" FOREIGN KEY ("gr
 ALTER TABLE "GroupUser" ADD CONSTRAINT "GroupUser_groupRoleId_fkey" FOREIGN KEY ("groupRoleId") REFERENCES "GroupRole"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
+ALTER TABLE "Order" ADD CONSTRAINT "Order_statusId_fkey" FOREIGN KEY ("statusId") REFERENCES "OrderStatus"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Order" ADD CONSTRAINT "Order_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "OrderItem" ADD CONSTRAINT "OrderItem_orderId_fkey" FOREIGN KEY ("orderId") REFERENCES "Order"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
 ALTER TABLE "RolePermission" ADD CONSTRAINT "RolePermission_roleId_fkey" FOREIGN KEY ("roleId") REFERENCES "Role"("id") ON DELETE CASCADE ON UPDATE NO ACTION;
 
 -- AddForeignKey
@@ -469,10 +658,22 @@ ALTER TABLE "RolePermission" ADD CONSTRAINT "RolePermission_permissionId_fkey" F
 ALTER TABLE "Session" ADD CONSTRAINT "Session_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
-ALTER TABLE "User" ADD CONSTRAINT "User_roleId_fkey" FOREIGN KEY ("roleId") REFERENCES "Role"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE "Ticket" ADD CONSTRAINT "Ticket_eventId_fkey" FOREIGN KEY ("eventId") REFERENCES "Event"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "TicketOrder" ADD CONSTRAINT "TicketOrder_ticketId_fkey" FOREIGN KEY ("ticketId") REFERENCES "Ticket"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "TicketOrder" ADD CONSTRAINT "TicketOrder_orderId_fkey" FOREIGN KEY ("orderId") REFERENCES "Order"("id") ON DELETE CASCADE ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "User" ADD CONSTRAINT "User_roleId_fkey" FOREIGN KEY ("roleId") REFERENCES "Role"("id") ON DELETE SET NULL ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "UserAccount" ADD CONSTRAINT "UserAccount_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "UserBillingAddress" ADD CONSTRAINT "UserBillingAddress_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE CASCADE ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Venue" ADD CONSTRAINT "Venue_groupId_fkey" FOREIGN KEY ("groupId") REFERENCES "Group"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

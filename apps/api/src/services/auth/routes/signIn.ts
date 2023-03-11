@@ -2,7 +2,7 @@ import { FastifyInstance } from 'fastify';
 import { ZodTypeProvider } from 'fastify-type-provider-zod';
 
 import { config } from '../../../config';
-import { db } from '../../../lib/db';
+import { prisma } from '../../../lib/db';
 import { signInSchema } from '../../../schemas/signInSchema';
 import { queues } from '../../queue';
 import { NOTIFICATION_TYPE } from '../../queue/notification';
@@ -13,10 +13,10 @@ export const signIn = async (fastify: FastifyInstance) => {
 		method: ['POST', 'OPTIONS'],
 		url: '/sign-in',
 		schema: signInSchema,
-		handler: async (request, reply) => {
+		handler: async (request: any, reply) => {
 			try {
 				const { email } = request.body;
-				const user = await db.user.findFirst({ where: { email } });
+				const user = await prisma.user.findFirst({ where: { email } });
 
 				if (!user) {
 					reply.code(401).send({ error: 'Unauthorized' });

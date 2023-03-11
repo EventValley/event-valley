@@ -7,5 +7,5 @@ type GroupPermission {
 }
 
 extend type Query {
-	groupPermissions: [GroupPermission]!
+	groupPermissions: [GroupPermission]! @hasRole(role: "Organizer")
 }

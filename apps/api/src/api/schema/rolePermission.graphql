@@ -8,5 +8,5 @@ type RolePermission {
 }
 
 extend type RolePermission {
-	rolePermissions: [RolePermission]!
+	rolePermissions: [RolePermission]! @hasRole(role: "Organizer")
 }

@@ -1,7 +1,11 @@
-import db from '../../../lib/db';
-import { MutationCreateEventArgs } from '../../../types/ApiTypes';
+import { ApiContext } from '../../../types/ApiContext';
+import { MutationCreateEventArgs } from '../../../types/GeneratedTypes';
 
-export const createEvent = async (parent: unknown, { input }: MutationCreateEventArgs) => {
+export const createEvent = async (
+	parent: unknown,
+	{ input }: MutationCreateEventArgs,
+	{ db }: ApiContext
+) => {
 	return db.event.create({
 		data: input,
 	});

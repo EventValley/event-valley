@@ -7,5 +7,5 @@ type Permission {
 }
 
 extend type Query {
-	permissions: [Permission]!
+	permissions: [Permission]! @hasRole(role: "Organizer")
 }

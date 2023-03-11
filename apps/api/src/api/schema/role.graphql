@@ -8,5 +8,5 @@ type Role {
 }
 
 extend type Role {
-	roles: [Role]
+	roles: [Role] @hasRole(role: "Organiser")
 }

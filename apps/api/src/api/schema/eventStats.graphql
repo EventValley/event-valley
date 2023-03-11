@@ -1,0 +1,11 @@
+type EventStats {
+	id: ID!
+	attendees: Int!
+	views: Int!
+	ticketsSold: Int!
+	salesValue: Int
+	eventId: ID!
+	event: Event!
+	createdAt: String
+	modifiedAt: String
+}

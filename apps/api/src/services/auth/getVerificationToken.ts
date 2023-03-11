@@ -1,8 +1,8 @@
-import db from '../../lib/db';
+import { prisma } from '../../lib/db';
 import { randomString } from '../../utils/random-string';
 
 export const getVerificationToken = async (userId: string) => {
-	const token = await db.verificationToken.create({
+	const token = await prisma.verificationToken.create({
 		data: {
 			token: randomString(32),
 			identifier: userId,

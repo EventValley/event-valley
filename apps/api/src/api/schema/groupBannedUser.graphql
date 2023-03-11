@@ -9,5 +9,5 @@ type GroupBannedUser {
 }
 
 extend type Query {
-	groupBannedUsers: [GroupBannedUser]!
+	groupBannedUsers: [GroupBannedUser]! @hasRole(role: "Organizer")
 }

@@ -14,9 +14,9 @@ type Event {
 	group: Group!
 	venueId: String
 	venue: Venue
-	eventUsers: [EventUser]
 	statusId: String!
 	status: EventStatus
+	eventStats: [EventStats]
 	createdAt: String
 	modifiedAt: String
 }
@@ -24,7 +24,8 @@ type Event {
 input EventFilter {
 	id: IDOperators
 	name: StringOperators
-	groupId: String
+	groupId: IDOperators
+	groupSlug: StringOperators
 	startsAt: DateOperators
 	createdAt: DateOperators
 	updatedAt: DateOperators
@@ -51,7 +52,7 @@ input CreateEventInput {
 	endsAt: String!
 	capacity: Int
 	inviteOnly: Boolean
-	image: String
+	image: String!
 	groupId: String!
 	venueId: String
 	statusId: String!
@@ -76,7 +77,16 @@ extend type Query {
 	events(options: EventOptions): [Event]!
 }
 
+type AttendEvent {
+	success: Boolean!
+}
+type NotAttendEvent {
+	success: Boolean!
+}
+
 extend type Mutation {
+	attendEvent(id: ID!): AttendEvent!
+	notAttendEvent(id: ID!): NotAttendEvent!
 	createEvent(input: CreateEventInput!): Event!
 	updateEvent(input: UpdateEventInput!): Event!
 }

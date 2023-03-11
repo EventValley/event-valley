@@ -4,3 +4,7 @@ type rsvp {
 	createdAt: String!
 	modifiedAt: String!
 }
+
+extend type Query {
+	myRsvp(eventId: ID!): rsvp
+}

@@ -7,5 +7,5 @@ type EventPermission {
 }
 
 extend type Query {
-	eventPermissions: [EventPermission]!
+	eventPermissions: [EventPermission]! @hasRole(role: "Organizer")
 }

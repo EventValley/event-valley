@@ -12,12 +12,17 @@ export type Scalars = {
   Float: number;
 };
 
+export type AttendEvent = {
+  __typename?: 'AttendEvent';
+  success: Scalars['Boolean'];
+};
+
 export type CreateEventInput = {
   capacity?: InputMaybe<Scalars['Int']>;
   description: Scalars['String'];
   endsAt: Scalars['String'];
   groupId: Scalars['String'];
-  image?: InputMaybe<Scalars['String']>;
+  image: Scalars['String'];
   inviteOnly?: InputMaybe<Scalars['Boolean']>;
   name: Scalars['String'];
   startsAt: Scalars['String'];
@@ -26,15 +31,27 @@ export type CreateEventInput = {
 };
 
 export type CreateGroupInput = {
-  banner?: InputMaybe<Scalars['String']>;
+  banner: Scalars['String'];
   city?: InputMaybe<Scalars['String']>;
   country?: InputMaybe<Scalars['String']>;
-  creatorId?: InputMaybe<Scalars['String']>;
+  creatorId: Scalars['String'];
   description: Scalars['String'];
-  logo?: InputMaybe<Scalars['String']>;
+  logo: Scalars['String'];
   name: Scalars['String'];
   postalCode?: InputMaybe<Scalars['String']>;
   region?: InputMaybe<Scalars['String']>;
+};
+
+export type CreateVenueInput = {
+  city: Scalars['String'];
+  country: Scalars['String'];
+  groupId: Scalars['String'];
+  latitude?: InputMaybe<Scalars['Float']>;
+  longitude?: InputMaybe<Scalars['Float']>;
+  name: Scalars['String'];
+  postalCode: Scalars['String'];
+  region: Scalars['String'];
+  streetAddress: Scalars['String'];
 };
 
 export type DateOperators = {
@@ -50,7 +67,7 @@ export type Event = {
   createdAt?: Maybe<Scalars['String']>;
   description: Scalars['String'];
   endsAt: Scalars['String'];
-  eventUsers?: Maybe<Array<Maybe<EventUser>>>;
+  eventStats?: Maybe<Array<Maybe<EventStats>>>;
   group: Group;
   groupId: Scalars['String'];
   id: Scalars['ID'];
@@ -80,7 +97,8 @@ export type EventBannedUser = {
 
 export type EventFilter = {
   createdAt?: InputMaybe<DateOperators>;
-  groupId?: InputMaybe<Scalars['String']>;
+  groupId?: InputMaybe<IdOperators>;
+  groupSlug?: InputMaybe<StringOperators>;
   id?: InputMaybe<IdOperators>;
   name?: InputMaybe<StringOperators>;
   startsAt?: InputMaybe<DateOperators>;
@@ -113,9 +131,6 @@ export type EventPermission = {
 export type EventRole = {
   __typename?: 'EventRole';
   createdAt: Scalars['String'];
-  eventRolePermission: Array<Maybe<EventRolePermission>>;
-  eventRoles: Array<Maybe<EventRole>>;
-  eventUsers: Array<Maybe<User>>;
   id: Scalars['ID'];
   modifiedAt: Scalars['String'];
   name: Scalars['String'];
@@ -132,10 +147,32 @@ export type EventRolePermission = {
   modifiedAt: Scalars['String'];
 };
 
+export type EventRoleWithRelations = {
+  __typename?: 'EventRoleWithRelations';
+  createdAt: Scalars['String'];
+  eventRolePermission: Array<Maybe<EventRolePermission>>;
+  eventUsers: Array<Maybe<User>>;
+  id: Scalars['ID'];
+  modifiedAt: Scalars['String'];
+  name: Scalars['String'];
+};
+
+export type EventStats = {
+  __typename?: 'EventStats';
+  attendees: Scalars['Int'];
+  createdAt?: Maybe<Scalars['String']>;
+  event: Event;
+  eventId: Scalars['ID'];
+  id: Scalars['ID'];
+  modifiedAt?: Maybe<Scalars['String']>;
+  salesValue?: Maybe<Scalars['Int']>;
+  ticketsSold: Scalars['Int'];
+  views: Scalars['Int'];
+};
+
 export type EventStatus = {
   __typename?: 'EventStatus';
   createdAt: Scalars['String'];
-  events: Array<Maybe<Event>>;
   id: Scalars['ID'];
   modifiedAt: Scalars['String'];
   name: Scalars['String'];
@@ -154,6 +191,25 @@ export type EventUser = {
   rsvpId: Scalars['String'];
   user: User;
   userId: Scalars['String'];
+};
+
+export type EventUserFilter = {
+  createdAt?: InputMaybe<DateOperators>;
+  eventId?: InputMaybe<IdOperators>;
+  eventRoleId?: InputMaybe<IdOperators>;
+  rsvpId?: InputMaybe<IdOperators>;
+  updatedAt?: InputMaybe<DateOperators>;
+};
+
+export type EventUserOptions = {
+  filter?: InputMaybe<EventUserFilter>;
+  orderBy?: InputMaybe<EventUserOrderBy>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+};
+
+export type EventUserOrderBy = {
+  createdAt?: InputMaybe<OrderDirection>;
 };
 
 export type Group = {
@@ -216,8 +272,6 @@ export type GroupPermission = {
 export type GroupRole = {
   __typename?: 'GroupRole';
   createdAt: Scalars['String'];
-  groupRolePermissions?: Maybe<Array<Maybe<GroupRolePermission>>>;
-  groupUsers?: Maybe<Array<Maybe<GroupUser>>>;
   id: Scalars['ID'];
   modifiedAt: Scalars['String'];
   name: Scalars['String'];
@@ -234,6 +288,16 @@ export type GroupRolePermission = {
   modifiedAt: Scalars['String'];
 };
 
+export type GroupRoleWithRelations = {
+  __typename?: 'GroupRoleWithRelations';
+  createdAt: Scalars['String'];
+  groupRolePermissions?: Maybe<Array<Maybe<GroupRolePermission>>>;
+  groupUsers?: Maybe<Array<Maybe<GroupUser>>>;
+  id: Scalars['ID'];
+  modifiedAt: Scalars['String'];
+  name: Scalars['String'];
+};
+
 export type GroupUser = {
   __typename?: 'GroupUser';
   createdAt: Scalars['String'];
@@ -247,46 +311,66 @@ export type GroupUser = {
   userId: Scalars['String'];
 };
 
-export type GroupWithRelations = {
-  __typename?: 'GroupWithRelations';
-  banner: Scalars['String'];
-  city?: Maybe<Scalars['String']>;
-  country?: Maybe<Scalars['String']>;
-  createdAt: Scalars['String'];
-  creatorId: Scalars['String'];
-  description: Scalars['String'];
-  events?: Maybe<Array<Maybe<Event>>>;
-  groupUsers?: Maybe<Array<Maybe<GroupUser>>>;
-  id: Scalars['ID'];
-  logo: Scalars['String'];
-  modifiedAt: Scalars['String'];
-  name: Scalars['String'];
-  postalCode?: Maybe<Scalars['String']>;
-  region?: Maybe<Scalars['String']>;
-  slug: Scalars['String'];
+export type GroupUserFilter = {
+  groupId?: InputMaybe<IdOperators>;
+  groupRoleName?: InputMaybe<Scalars['String']>;
+  groupSlug?: InputMaybe<Scalars['String']>;
+};
+
+export type GroupUserOptions = {
+  filter?: InputMaybe<GroupUserFilter>;
+  orderBy?: InputMaybe<GroupUserOrderBy>;
+  skip?: InputMaybe<Scalars['Int']>;
+  take?: InputMaybe<Scalars['Int']>;
+};
+
+export type GroupUserOrderBy = {
+  createdAt?: InputMaybe<OrderDirection>;
 };
 
 export type IdOperators = {
-  contains?: InputMaybe<Scalars['String']>;
-  equals?: InputMaybe<Scalars['String']>;
-  in?: InputMaybe<Array<Scalars['String']>>;
-  not?: InputMaybe<Scalars['String']>;
-  notIn?: InputMaybe<Array<Scalars['String']>>;
-  search?: InputMaybe<Scalars['String']>;
+  contains?: InputMaybe<Scalars['ID']>;
+  equals?: InputMaybe<Scalars['ID']>;
+  in?: InputMaybe<Array<Scalars['ID']>>;
+  not?: InputMaybe<Scalars['ID']>;
+  notIn?: InputMaybe<Array<Scalars['ID']>>;
+  search?: InputMaybe<Scalars['ID']>;
+};
+
+export type Me = {
+  __typename?: 'Me';
+  accounts?: Maybe<Array<Maybe<UserAccount>>>;
+  birthDate?: Maybe<Scalars['String']>;
+  createdAt: Scalars['String'];
+  email: Scalars['String'];
+  id: Scalars['ID'];
+  image?: Maybe<Scalars['String']>;
+  modifiedAt: Scalars['String'];
+  name: Scalars['String'];
+  phoneNumber?: Maybe<Scalars['String']>;
+  role: Role;
+  roleId: Scalars['String'];
 };
 
 export type Mutation = {
   __typename?: 'Mutation';
+  attendEvent: AttendEvent;
   createEvent: Event;
   createGroup: Group;
   createVenue: Venue;
   joinGroup?: Maybe<GroupUser>;
   leaveGroup?: Maybe<GroupUser>;
+  notAttendEvent: NotAttendEvent;
   subscribeToEvent?: Maybe<EventUser>;
   unsubscribeToEvent?: Maybe<EventUser>;
   updateEvent: Event;
   updateGroup: Group;
   updateVenue: Venue;
+};
+
+
+export type MutationAttendEventArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -301,7 +385,7 @@ export type MutationCreateGroupArgs = {
 
 
 export type MutationCreateVenueArgs = {
-  input: CreateEventInput;
+  input: CreateVenueInput;
 };
 
 
@@ -312,6 +396,11 @@ export type MutationJoinGroupArgs = {
 
 export type MutationLeaveGroupArgs = {
   groupId: Scalars['ID'];
+};
+
+
+export type MutationNotAttendEventArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -336,7 +425,12 @@ export type MutationUpdateGroupArgs = {
 
 
 export type MutationUpdateVenueArgs = {
-  input: UpdateEventInput;
+  input: UpdateVenueInput;
+};
+
+export type NotAttendEvent = {
+  __typename?: 'NotAttendEvent';
+  success: Scalars['Boolean'];
 };
 
 export enum OrderDirection {
@@ -353,21 +447,41 @@ export type Permission = {
   rolePermissions?: Maybe<Array<Maybe<RolePermission>>>;
 };
 
+export type PublicGroupUser = {
+  __typename?: 'PublicGroupUser';
+  createdAt: Scalars['String'];
+  group: Group;
+  groupId: Scalars['String'];
+  groupRole: GroupRole;
+  groupRoleId: Scalars['String'];
+  id: Scalars['ID'];
+  modifiedAt: Scalars['String'];
+  user: User;
+  userId: Scalars['String'];
+};
+
 export type Query = {
   __typename?: 'Query';
   event?: Maybe<Event>;
   eventBannedUsers: Array<Maybe<EventBannedUser>>;
   eventPermissions: Array<Maybe<EventPermission>>;
   eventRolePermissions: Array<Maybe<EventRolePermission>>;
+  eventRoles: Array<Maybe<EventRoleWithRelations>>;
   eventStatuses: Array<Maybe<EventStatus>>;
+  eventUsers: Array<Maybe<EventUser>>;
   events: Array<Maybe<Event>>;
-  group?: Maybe<GroupWithRelations>;
+  group?: Maybe<Group>;
   groupBannedUsers: Array<Maybe<GroupBannedUser>>;
   groupPermissions: Array<Maybe<GroupPermission>>;
   groupRolePermissions: Array<Maybe<GroupRolePermission>>;
-  groupRoles: Array<Maybe<GroupRole>>;
-  groupUsers?: Maybe<Array<Maybe<GroupUser>>>;
+  groupRoles: Array<Maybe<GroupRoleWithRelations>>;
+  groupUsers: Array<Maybe<PublicGroupUser>>;
+  groupUsersCount: Scalars['Int'];
   groups: Array<Maybe<Group>>;
+  me?: Maybe<Me>;
+  myEventRole?: Maybe<EventRole>;
+  myGroupRole?: Maybe<GroupRole>;
+  myRsvp?: Maybe<Rsvp>;
   permissions: Array<Maybe<Permission>>;
   user?: Maybe<User>;
   users?: Maybe<Array<Maybe<User>>>;
@@ -378,6 +492,11 @@ export type Query = {
 
 export type QueryEventArgs = {
   id: Scalars['ID'];
+};
+
+
+export type QueryEventUsersArgs = {
+  options?: InputMaybe<EventUserOptions>;
 };
 
 
@@ -392,8 +511,40 @@ export type QueryGroupArgs = {
 };
 
 
+export type QueryGroupUsersArgs = {
+  options?: InputMaybe<GroupUserOptions>;
+};
+
+
+export type QueryGroupUsersCountArgs = {
+  groupId?: InputMaybe<Scalars['ID']>;
+  groupSlug?: InputMaybe<Scalars['String']>;
+};
+
+
 export type QueryGroupsArgs = {
   options?: InputMaybe<GroupOptions>;
+};
+
+
+export type QueryMyEventRoleArgs = {
+  eventId: Scalars['ID'];
+};
+
+
+export type QueryMyGroupRoleArgs = {
+  groupId?: InputMaybe<Scalars['ID']>;
+  groupSlug?: InputMaybe<Scalars['String']>;
+};
+
+
+export type QueryMyRsvpArgs = {
+  eventId: Scalars['ID'];
+};
+
+
+export type QueryUserArgs = {
+  id: Scalars['ID'];
 };
 
 
@@ -464,23 +615,29 @@ export type UpdateGroupInput = {
   region?: InputMaybe<Scalars['String']>;
 };
 
+export type UpdateVenueInput = {
+  city: Scalars['String'];
+  country: Scalars['String'];
+  groupId: Scalars['String'];
+  id: Scalars['ID'];
+  latitude?: InputMaybe<Scalars['Float']>;
+  longitude?: InputMaybe<Scalars['Float']>;
+  name: Scalars['String'];
+  postalCode: Scalars['String'];
+  region: Scalars['String'];
+  streetAddress: Scalars['String'];
+};
+
 export type User = {
   __typename?: 'User';
   accounts?: Maybe<Array<Maybe<UserAccount>>>;
   birthDate?: Maybe<Scalars['String']>;
   createdAt: Scalars['String'];
-  email: Scalars['String'];
-  events?: Maybe<Array<Maybe<Event>>>;
-  groupRole?: Maybe<GroupRole>;
-  groupRoleId: Scalars['String'];
-  groups?: Maybe<Array<Maybe<Group>>>;
   id: Scalars['ID'];
   image?: Maybe<Scalars['String']>;
   modifiedAt: Scalars['String'];
   name: Scalars['String'];
-  phoneNumber?: Maybe<Scalars['String']>;
   role: Role;
-  roleId: Scalars['String'];
 };
 
 export type UserAccount = {

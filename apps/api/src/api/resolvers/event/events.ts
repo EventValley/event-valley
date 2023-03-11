@@ -1,8 +1,26 @@
+import { sendErrorCode } from '../../../lib/sendErrorCode';
 import { ApiContext } from '../../../types/ApiContext';
-import { QueryEventsArgs } from '../../../types/ApiTypes';
+import { QueryEventsArgs } from '../../../types/GeneratedTypes';
 
 export const events = async (parent: unknown, { options }: QueryEventsArgs, { db, user }: ApiContext) => {
 	try {
+		let groupId;
+
+		if (options && options.filter && options.filter.groupSlug) {
+			const group = await db.group.findFirst({
+				where: {
+					slug: options.filter.groupSlug,
+				},
+			});
+
+			if (!group) {
+				return sendErrorCode({ code: 'BAD_USER_INPUT', message: 'Entity not found' });
+			}
+
+			delete options.filter.groupSlug;
+			groupId = group.id;
+		}
+
 		return db.event.findMany({
 			where: {
 				...(options && options.filter),
@@ -27,6 +45,7 @@ export const events = async (parent: unknown, { options }: QueryEventsArgs, { db
 							lt: new Date(options.filter.startsAt.lt),
 						},
 					}),
+				...(groupId && { groupId }),
 			},
 			include: {
 				group: true,
@@ -39,7 +58,6 @@ export const events = async (parent: unknown, { options }: QueryEventsArgs, { db
 			skip: (options && options.skip) || 0,
 		});
 	} catch (e) {
-		console.log(e);
-		throw new Error('Something went wrong');
+		return sendErrorCode({ code: 'INTERNAL_SERVER_ERROR', message: 'Internal server error' });
 	}
 };

@@ -12,6 +12,29 @@ type EventUser {
 	modifiedAt: String!
 }
 
+input EventUserFilter {
+	eventId: IDOperators
+	eventRoleId: IDOperators
+	rsvpId: IDOperators
+	createdAt: DateOperators
+	updatedAt: DateOperators
+}
+
+input EventUserOrderBy {
+	createdAt: OrderDirection
+}
+
+input EventUserOptions {
+	filter: EventUserFilter
+	take: Int
+	skip: Int
+	orderBy: EventUserOrderBy
+}
+
+extend type Query {
+	eventUsers(options: EventUserOptions): [EventUser]!
+}
+
 extend type Mutation {
 	subscribeToEvent(eventId: ID!): EventUser
 	unsubscribeToEvent(eventId: ID!): EventUser

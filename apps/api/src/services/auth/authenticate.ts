@@ -1,4 +1,4 @@
-import db from '../../lib/db';
+import { prisma } from '../../lib/db';
 import { JWTPayload } from '../../types/JWTPayload';
 import { verifyJWT } from './jwt';
 
@@ -19,7 +19,14 @@ export const authenticate = async (request: any, reply: any) => {
 		return false;
 	}
 
-	const user = await db.user.findFirst({ where: { id: decodedToken.userId } });
+	const user = await prisma.user.findFirst({
+		where: {
+			id: decodedToken.userId,
+		},
+		include: {
+			role: true,
+		},
+	});
 
 	if (!user) {
 		reply.code(401).send({ error: 'Unauthorized' });

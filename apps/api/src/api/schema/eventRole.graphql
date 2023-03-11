@@ -1,13 +1,21 @@
 type EventRole {
 	id: ID!
 	name: String!
-	eventUsers: [User]!
-	eventRolePermission: [EventRolePermission]!
 	createdAt: String!
 	modifiedAt: String!
 }
 
-extend type EventRole {
-	eventRoles: [EventRole]!
+type EventRoleWithRelations {
+	id: ID!
+	name: String!
+	eventUsers: [User]!
+	eventRolePermission: [EventRolePermission]! @hasRole(role: "Organizer")
+	createdAt: String!
+	modifiedAt: String!
+}
+
+extend type Query {
+	eventRoles: [EventRoleWithRelations]! @hasRole(role: "Organizer")
+	myEventRole(eventId: ID!): EventRole
 }
 

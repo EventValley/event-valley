@@ -6,11 +6,13 @@ import {
 } from '@as-integrations/fastify';
 import cors from '@fastify/cors';
 import { loadFiles } from '@graphql-tools/load-files';
+import { makeExecutableSchema } from '@graphql-tools/schema';
 import { FastifyInstance } from 'fastify';
 
 import { prisma } from '../lib/db';
 import { authenticate } from '../services/auth/authenticate';
 import { ApiContext } from '../types/ApiContext';
+import { getAuthorizedSchema } from './directives';
 import { resolvers } from './resolvers';
 
 const contextAuth: ApolloFastifyContextFunction<ApiContext> = async (request, reply) => ({
@@ -19,9 +21,11 @@ const contextAuth: ApolloFastifyContextFunction<ApiContext> = async (request, re
 });
 
 export const api = async (fastify: FastifyInstance) => {
+	let schema = makeExecutableSchema({ typeDefs: await loadFiles('./**/*.graphql'), resolvers });
+	schema = getAuthorizedSchema(schema);
+
 	const apollo = new ApolloServer<ApiContext>({
-		typeDefs: await loadFiles('./**/*.graphql'),
-		resolvers,
+		schema,
 		plugins: [fastifyApolloDrainPlugin(fastify)],
 	});
 

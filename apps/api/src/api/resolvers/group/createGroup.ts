@@ -1,9 +1,13 @@
 import slugify from 'slugify';
 
-import db from '../../../lib/db';
-import { MutationCreateGroupArgs } from '../../../types/ApiTypes';
+import { ApiContext } from '../../../types/ApiContext';
+import { MutationCreateGroupArgs } from '../../../types/GeneratedTypes';
 
-export const createGroup = async (parent: unknown, { input }: MutationCreateGroupArgs) => {
+export const createGroup = async (
+	parent: unknown,
+	{ input }: MutationCreateGroupArgs,
+	{ db }: ApiContext
+) => {
 	return db.group.create({
 		data: {
 			...input,

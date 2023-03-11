@@ -1,4 +1,4 @@
-type User {
+type Me {
 	id: ID!
 	name: String!
 	email: String!
@@ -7,11 +7,18 @@ type User {
 	phoneNumber: String
 	roleId: String!
 	role: Role!
-	groupRoleId: String!
-	groupRole: GroupRole
 	accounts: [UserAccount]
-	groups: [Group]
-	events: [Event]
+	createdAt: String!
+	modifiedAt: String!
+}
+
+type User {
+	id: ID!
+	name: String!
+	image: String
+	birthDate: String
+	accounts: [UserAccount]
+	role: Role!
 	createdAt: String!
 	modifiedAt: String!
 }
@@ -24,6 +31,7 @@ type UserAccount {
 }
 
 extend type Query {
-	user: User
-	users: [User]
+	me: Me
+	user(id: ID!): User
+	users: [User] @hasRole(role: "Organizer")
 }

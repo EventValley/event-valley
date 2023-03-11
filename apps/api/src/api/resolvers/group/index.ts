@@ -1,3 +1,4 @@
+import { joinGroup } from '../groupUser/joinGroup';
 import { createGroup } from './createGroup';
 import { group } from './group';
 import { groups } from './groups';
@@ -10,6 +11,7 @@ export const groupResolver = {
 	},
 	Mutation: {
 		createGroup,
+		joinGroup,
 		updateGroup,
 	},
 };

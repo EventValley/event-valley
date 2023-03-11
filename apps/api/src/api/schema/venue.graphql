@@ -36,7 +36,32 @@ extend type Query {
 	venues(options: VenueOptions): [Venue]!
 }
 
+input CreateVenueInput {
+	name: String!
+	streetAddress: String!
+	city: String!
+	postalCode: String!
+	region: String!
+	country: String!
+	latitude: Float
+	longitude: Float
+	groupId: String!
+}
+
+input UpdateVenueInput {
+	id: ID!
+	name: String!
+	streetAddress: String!
+	city: String!
+	postalCode: String!
+	region: String!
+	country: String!
+	latitude: Float
+	longitude: Float
+	groupId: String!
+}
+
 extend type Mutation {
-	createVenue(input: CreateEventInput!): Venue!
-	updateVenue(input: UpdateEventInput!): Venue!
+	createVenue(input: CreateVenueInput!): Venue!
+	updateVenue(input: UpdateVenueInput!): Venue!
 }

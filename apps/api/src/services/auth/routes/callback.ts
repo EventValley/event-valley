@@ -1,7 +1,7 @@
 import { FastifyInstance } from 'fastify';
 import { ZodTypeProvider } from 'fastify-type-provider-zod';
 
-import db from '../../../lib/db';
+import { prisma } from '../../../lib/db';
 import { callbackSchema } from '../../../schemas/signInSchema';
 import { signJWT } from '../jwt';
 
@@ -10,7 +10,7 @@ export const callback = async (fastify: FastifyInstance) => {
 		method: 'GET',
 		url: '/callback/email/:token',
 		schema: callbackSchema,
-		handler: async (request, reply) => {
+		handler: async (request: any, reply) => {
 			const { token } = request.params;
 
 			if (!token) {
@@ -20,7 +20,7 @@ export const callback = async (fastify: FastifyInstance) => {
 			}
 
 			try {
-				const verificationToken = await db.verificationToken.findFirst({
+				const verificationToken = await prisma.verificationToken.findFirst({
 					where: {
 						token: token,
 					},
@@ -40,7 +40,7 @@ export const callback = async (fastify: FastifyInstance) => {
 					return;
 				}
 
-				await db.verificationToken.delete({
+				await prisma.verificationToken.delete({
 					where: {
 						identifierToken: {
 							token: token,

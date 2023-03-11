@@ -1,301 +1,431 @@
 generator client {
-	provider = "prisma-client-js"
+  provider = "prisma-client-js"
 }
 
 datasource db {
-	provider = "postgresql"
-	url      = env("DATABASE_URL")
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
 }
 
 model Event {
-	id          String            @id @unique(map: "event_id_uindex") @default(uuid())
-	name        String
-	description String
-	url         String?
-	streamUrl   String?
-	startsAt    DateTime          @db.Timestamptz(0)
-	endsAt      DateTime          @db.Timestamptz(0)
-	capacity    Int
-	inviteOnly  Boolean
-	canceled    Boolean
-	image       String
-	groupId     String
-	group       Group             @relation(fields: [groupId], references: [id])
-	venueId     String
-	venue       Venue             @relation(fields: [venueId], references: [id])
-	eventUsers  EventUser[]
-	bannedUsers EventBannedUser[]
-	statusId    String
-	status      EventStatus       @relation(fields: [statusId], references: [id])
-	createdAt   DateTime          @default(now()) @db.Timestamptz(0)
-	modifiedAt  DateTime          @default(now()) @updatedAt @db.Timestamptz(0)
+  id          String            @id @unique(map: "event_id_uindex") @default(uuid())
+  name        String
+  description String
+  url         String?
+  streamUrl   String?
+  startsAt    DateTime          @db.Timestamptz(0)
+  endsAt      DateTime          @db.Timestamptz(0)
+  capacity    Int?
+  inviteOnly  Boolean?
+  canceled    Boolean?
+  image       String
+  groupId     String
+  group       Group             @relation(fields: [groupId], references: [id])
+  venueId     String?
+  venue       Venue?            @relation(fields: [venueId], references: [id])
+  eventUsers  EventUser[]
+  bannedUsers EventBannedUser[]
+  statusId    String
+  status      EventStatus       @relation(fields: [statusId], references: [id])
+  tickets     Ticket[]
+  eventStats  EventStats[]
+  eventPhotos EventPhoto[]
+  createdAt   DateTime          @default(now()) @db.Timestamptz(0)
+  modifiedAt  DateTime          @default(now()) @updatedAt @db.Timestamptz(0)
 }
 
 model EventBannedUser {
-	id         String   @id @unique(map: "event_banned_user_id_uindex") @default(uuid())
-	eventId    String
-	event      Event    @relation(fields: [eventId], references: [id])
-	userId     String
-	user       User     @relation(fields: [userId], references: [id])
-	createdAt  DateTime @default(now()) @db.Timestamptz(0)
-	modifiedAt DateTime @default(now()) @updatedAt @db.Timestamptz(0)
+  id         String   @id @unique(map: "event_banned_user_id_uindex") @default(uuid())
+  eventId    String
+  event      Event    @relation(fields: [eventId], references: [id])
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  createdAt  DateTime @default(now()) @db.Timestamptz(0)
+  modifiedAt DateTime @default(now()) @updatedAt @db.Timestamptz(0)
 
-	@@unique([eventId, userId])
+  @@unique([eventId, userId])
 }
 
 model EventPermission {
-	id                   String                @id @unique(map: "event_permission_id_uindex") @default(uuid())
-	name                 String
-	eventRolePermissions EventRolePermission[]
-	createdAt            DateTime              @default(now()) @db.Timestamptz(0)
-	modifiedAt           DateTime              @default(now()) @updatedAt @db.Timestamptz(0)
+  id                   String                @id @unique(map: "event_permission_id_uindex") @default(uuid())
+  name                 String
+  eventRolePermissions EventRolePermission[]
+  createdAt            DateTime              @default(now()) @db.Timestamptz(0)
+  modifiedAt           DateTime              @default(now()) @updatedAt @db.Timestamptz(0)
 
-	@@unique([name])
+  @@unique([name])
+}
+
+model EventPhoto {
+  id          String   @id @unique(map: "event_photo_id_uindex") @default(uuid())
+  url         String
+  description String
+  eventId     String
+  event       Event    @relation(fields: [eventId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  createdAt   DateTime @default(now()) @db.Timestamptz(0)
+  modifiedAt  DateTime @default(now()) @updatedAt @db.Timestamptz(0)
 }
 
 model EventRole {
-	id                   String                @id @unique(map: "event_role_id_uindex") @default(uuid())
-	name                 String
-	eventUsers           EventUser[]
-	eventRolePermissions EventRolePermission[]
-	createdAt            DateTime              @default(now()) @db.Timestamptz(0)
-	modifiedAt           DateTime              @default(now()) @updatedAt @db.Timestamptz(0)
+  id                   String                @id @unique(map: "event_role_id_uindex") @default(uuid())
+  name                 String
+  eventUsers           EventUser[]
+  eventRolePermissions EventRolePermission[]
+  createdAt            DateTime              @default(now()) @db.Timestamptz(0)
+  modifiedAt           DateTime              @default(now()) @updatedAt @db.Timestamptz(0)
 
-	@@unique([name])
+  @@unique([name])
 }
 
 model EventRolePermission {
-	id                String          @id @unique(map: "event_role_permission_id_uindex") @default(uuid())
-	eventRoleId       String
-	eventRole         EventRole       @relation(fields: [eventRoleId], references: [id], onDelete: Cascade, onUpdate: NoAction)
-	eventPermissionId String
-	eventPermission   EventPermission @relation(fields: [eventPermissionId], references: [id], onDelete: Cascade, onUpdate: NoAction)
-	createdAt         DateTime        @default(now()) @db.Timestamptz(0)
-	modifiedAt        DateTime        @default(now()) @updatedAt @db.Timestamptz(0)
+  id                String          @id @unique(map: "event_role_permission_id_uindex") @default(uuid())
+  eventRoleId       String
+  eventRole         EventRole       @relation(fields: [eventRoleId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  eventPermissionId String
+  eventPermission   EventPermission @relation(fields: [eventPermissionId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  createdAt         DateTime        @default(now()) @db.Timestamptz(0)
+  modifiedAt        DateTime        @default(now()) @updatedAt @db.Timestamptz(0)
 
-	@@unique([eventRoleId, eventPermissionId])
+  @@unique([eventRoleId, eventPermissionId])
+}
+
+model EventStats {
+  id           String   @id @unique(map: "event_stats_id_uindex") @default(uuid())
+  views        Int      @default(0)
+  attending    Int      @default(0)
+  notAttending Int      @default(0)
+  waiting      Int      @default(0)
+  ticketsSold  Int
+  salesValue   Int
+  eventId      String
+  event        Event    @relation(fields: [eventId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  createdAt    DateTime @default(now()) @db.Timestamptz(0)
+  modifiedAt   DateTime @default(now()) @updatedAt @db.Timestamptz(0)
 }
 
 model EventStatus {
-	id         String   @id @unique(map: "event_status_id_uindex") @default(uuid())
-	name       String
-	events     Event[]
-	createdAt  DateTime @default(now()) @db.Timestamptz(0)
-	modifiedAt DateTime @default(now()) @updatedAt @db.Timestamptz(0)
+  id         String   @id @unique(map: "event_status_id_uindex") @default(uuid())
+  name       String
+  events     Event[]
+  createdAt  DateTime @default(now()) @db.Timestamptz(0)
+  modifiedAt DateTime @default(now()) @updatedAt @db.Timestamptz(0)
 
-	@@unique([name])
+  @@unique([name])
 }
 
 model EventUser {
-	id          String    @id @unique(map: "event_user_id_uindex") @default(uuid())
-	eventId     String
-	event       Event     @relation(fields: [eventId], references: [id])
-	userId      String
-	user        User      @relation(fields: [userId], references: [id])
-	eventRoleId String
-	eventRole   EventRole @relation(fields: [eventRoleId], references: [id])
-	rsvpId      String
-	rsvp        rsvp      @relation(fields: [rsvpId], references: [id])
-	createdAt   DateTime  @default(now()) @db.Timestamptz(0)
-	modifiedAt  DateTime  @default(now()) @updatedAt @db.Timestamptz(0)
+  id          String    @id @unique(map: "event_user_id_uindex") @default(uuid())
+  eventId     String
+  event       Event     @relation(fields: [eventId], references: [id])
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  eventRoleId String
+  eventRole   EventRole @relation(fields: [eventRoleId], references: [id])
+  rsvpId      String
+  rsvp        rsvp      @relation(fields: [rsvpId], references: [id])
+  createdAt   DateTime  @default(now()) @db.Timestamptz(0)
+  modifiedAt  DateTime  @default(now()) @updatedAt @db.Timestamptz(0)
 
-	@@unique([eventId, userId])
+  @@unique([eventId, userId], name: "eventIdUserId")
 }
 
 model Group {
-	id             String            @id @unique(map: "group_id_uindex") @default(uuid())
-	name           String
-	slug           String
-	description    String
-	postalCode     String?
-	country        String?
-	region         String?
-	city           String?
-	streetAddress1 String?
-	streetAddress2 String?
-	logo           String
-	banner         String
-	creatorId      String
-	events         Event[]
-	groupUsers     GroupUser[]
-	venues         Venue[]
-	bannedUsers    GroupBannedUser[]
-	createdAt      DateTime          @default(now()) @db.Timestamptz(0)
-	modifiedAt     DateTime          @default(now()) @updatedAt @db.Timestamptz(0)
+  id             String            @id @unique(map: "group_id_uindex") @default(uuid())
+  name           String
+  slug           String
+  description    String
+  postalCode     String?
+  country        String?
+  region         String?
+  city           String?
+  streetAddress1 String?
+  streetAddress2 String?
+  logo           String
+  banner         String
+  creatorId      String
+  events         Event[]
+  groupUsers     GroupUser[]
+  venues         Venue[]
+  bannedUsers    GroupBannedUser[]
+  groupPhotos    GroupPhoto[]
+  createdAt      DateTime          @default(now()) @db.Timestamptz(0)
+  modifiedAt     DateTime          @default(now()) @updatedAt @db.Timestamptz(0)
 
-	@@unique([name])
-	@@unique([slug])
+  @@unique([name])
+  @@unique([slug])
 }
 
 model GroupBannedUser {
-	id         String   @id @unique(map: "group_banned_user_id_uindex") @default(uuid())
-	groupId    String
-	group      Group    @relation(fields: [groupId], references: [id])
-	userId     String
-	user       User     @relation(fields: [userId], references: [id])
-	createdAt  DateTime @default(now()) @db.Timestamptz(0)
-	modifiedAt DateTime @default(now()) @updatedAt @db.Timestamptz(0)
+  id         String   @id @unique(map: "group_banned_user_id_uindex") @default(uuid())
+  groupId    String
+  group      Group    @relation(fields: [groupId], references: [id])
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  createdAt  DateTime @default(now()) @db.Timestamptz(0)
+  modifiedAt DateTime @default(now()) @updatedAt @db.Timestamptz(0)
 
-	@@unique([groupId, userId])
+  @@unique([groupId, userId])
 }
 
 model GroupPermission {
-	id                   String                @id @unique(map: "group_permission_id_uindex") @default(uuid())
-	name                 String
-	groupRolePermissions GroupRolePermission[]
-	createdAt            DateTime              @default(now()) @db.Timestamptz(0)
-	modifiedAt           DateTime              @default(now()) @updatedAt @db.Timestamptz(0)
+  id                   String                @id @unique(map: "group_permission_id_uindex") @default(uuid())
+  name                 String
+  groupRolePermissions GroupRolePermission[]
+  createdAt            DateTime              @default(now()) @db.Timestamptz(0)
+  modifiedAt           DateTime              @default(now()) @updatedAt @db.Timestamptz(0)
 
-	@@unique([name])
+  @@unique([name])
+}
+
+model GroupPhoto {
+  id          String   @id @unique(map: "group_photo_id_uindex") @default(uuid())
+  url         String
+  description String
+  groupId     String
+  group       Group    @relation(fields: [groupId], references: [id])
+  createdAt   DateTime @default(now()) @db.Timestamptz(0)
+  modifiedAt  DateTime @default(now()) @updatedAt @db.Timestamptz(0)
 }
 
 model GroupRole {
-	id                   String                @id @unique(map: "group_role_id_uindex") @default(uuid())
-	name                 String
-	groupUsers           GroupUser[]
-	groupRolePermissions GroupRolePermission[]
-	createdAt            DateTime              @default(now()) @db.Timestamptz(0)
-	modifiedAt           DateTime              @default(now()) @updatedAt @db.Timestamptz(0)
+  id                   String                @id @unique(map: "group_role_id_uindex") @default(uuid())
+  name                 String
+  groupUsers           GroupUser[]
+  groupRolePermissions GroupRolePermission[]
+  createdAt            DateTime              @default(now()) @db.Timestamptz(0)
+  modifiedAt           DateTime              @default(now()) @updatedAt @db.Timestamptz(0)
 
-	@@unique([name])
+  @@unique([name])
 }
 
 model GroupRolePermission {
-	id                String          @id @unique(map: "group_role_permission_id_uindex") @default(uuid())
-	groupRoleId       String
-	groupRole         GroupRole       @relation(fields: [groupRoleId], references: [id], onDelete: Cascade, onUpdate: NoAction)
-	groupPermissionId String
-	groupPermission   GroupPermission @relation(fields: [groupPermissionId], references: [id], onDelete: Cascade, onUpdate: NoAction)
-	createdAt         DateTime        @default(now()) @db.Timestamptz(0)
-	modifiedAt        DateTime        @default(now()) @updatedAt @db.Timestamptz(0)
+  id                String          @id @unique(map: "group_role_permission_id_uindex") @default(uuid())
+  groupRoleId       String
+  groupRole         GroupRole       @relation(fields: [groupRoleId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  groupPermissionId String
+  groupPermission   GroupPermission @relation(fields: [groupPermissionId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  createdAt         DateTime        @default(now()) @db.Timestamptz(0)
+  modifiedAt        DateTime        @default(now()) @updatedAt @db.Timestamptz(0)
 
-	@@unique([groupRoleId, groupPermissionId])
+  @@unique([groupRoleId, groupPermissionId])
 }
 
 model GroupUser {
-	id          String    @id @unique(map: "group_user_id_uindex") @default(uuid())
-	userId      String
-	user        User      @relation(fields: [userId], references: [id])
-	groupId     String
-	group       Group     @relation(fields: [groupId], references: [id])
-	groupRoleId String
-	groupRole   GroupRole @relation(fields: [groupRoleId], references: [id])
-	createdAt   DateTime  @default(now()) @db.Timestamptz(0)
-	modifiedAt  DateTime  @default(now()) @updatedAt @db.Timestamptz(0)
+  id          String    @id @unique(map: "group_user_id_uindex") @default(uuid())
+  userId      String
+  user        User      @relation(fields: [userId], references: [id])
+  groupId     String
+  group       Group     @relation(fields: [groupId], references: [id])
+  groupRoleId String
+  groupRole   GroupRole @relation(fields: [groupRoleId], references: [id])
+  createdAt   DateTime  @default(now()) @db.Timestamptz(0)
+  modifiedAt  DateTime  @default(now()) @updatedAt @db.Timestamptz(0)
 
-	@@unique([userId, groupId])
+  @@unique([userId, groupId], name: "groupIdUserId")
+}
+
+model Order {
+  id            String        @id @unique(map: "order_id_uindex") @default(uuid())
+  notes         String?
+  amount        Float
+  discount      Float
+  taxAmount     Float
+  paymentIntent String?
+  transactionId String?
+  statusId      String
+  status        OrderStatus   @relation(fields: [statusId], references: [id])
+  userId        String
+  user          User          @relation(fields: [userId], references: [id])
+  ticketOrders  TicketOrder[]
+  orderItems    OrderItem[]
+  createdAt     DateTime      @default(now()) @db.Timestamptz(0)
+  modifiedAt    DateTime      @default(now()) @updatedAt @db.Timestamptz(0)
+}
+
+model OrderItem {
+  id         String   @id @unique(map: "order_item_id_uindex") @default(uuid())
+  title      String
+  quantity   Int
+  unitPrice  Float
+  orderId    String
+  order      Order    @relation(fields: [orderId], references: [id])
+  createdAt  DateTime @default(now()) @db.Timestamptz(0)
+  modifiedAt DateTime @default(now()) @updatedAt @db.Timestamptz(0)
+}
+
+model OrderStatus {
+  id         String   @id @unique(map: "order_status_id_uindex") @default(uuid())
+  name       String
+  orders     Order[]
+  createdAt  DateTime @default(now()) @db.Timestamptz(0)
+  modifiedAt DateTime @default(now()) @updatedAt @db.Timestamptz(0)
+
+  @@unique([name])
 }
 
 model Permission {
-	id              String           @id @unique(map: "permission_id_uindex") @default(uuid())
-	name            String
-	rolePermissions RolePermission[]
-	createdAt       DateTime         @default(now()) @db.Timestamptz(0)
-	modifiedAt      DateTime         @default(now()) @updatedAt @db.Timestamptz(0)
+  id              String           @id @unique(map: "permission_id_uindex") @default(uuid())
+  name            String
+  rolePermissions RolePermission[]
+  createdAt       DateTime         @default(now()) @db.Timestamptz(0)
+  modifiedAt      DateTime         @default(now()) @updatedAt @db.Timestamptz(0)
 
-	@@unique([name])
+  @@unique([name])
 }
 
 model Role {
-	id              String           @id @unique(map: "role_id_uindex") @default(uuid())
-	name            String
-	rolePermissions RolePermission[]
-	users           User[]
-	createdAt       DateTime         @default(now()) @db.Timestamptz(0)
-	modifiedAt      DateTime         @default(now()) @updatedAt @db.Timestamptz(0)
+  id              String           @id @unique(map: "role_id_uindex") @default(uuid())
+  name            String
+  rolePermissions RolePermission[]
+  users           User[]
+  createdAt       DateTime         @default(now()) @db.Timestamptz(0)
+  modifiedAt      DateTime         @default(now()) @updatedAt @db.Timestamptz(0)
 
-	@@unique([name])
+  @@unique([name])
 }
 
 model RolePermission {
-	id           String     @id @unique(map: "role_permission_id_uindex") @default(uuid())
-	roleId       String
-	role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade, onUpdate: NoAction)
-	permissionId String
-	permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade, onUpdate: NoAction)
-	createdAt    DateTime   @default(now()) @db.Timestamptz(0)
-	modifiedAt   DateTime   @default(now()) @updatedAt @db.Timestamptz(0)
+  id           String     @id @unique(map: "role_permission_id_uindex") @default(uuid())
+  roleId       String
+  role         Role       @relation(fields: [roleId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  permissionId String
+  permission   Permission @relation(fields: [permissionId], references: [id], onDelete: Cascade, onUpdate: NoAction)
+  createdAt    DateTime   @default(now()) @db.Timestamptz(0)
+  modifiedAt   DateTime   @default(now()) @updatedAt @db.Timestamptz(0)
 
-	@@unique([roleId, permissionId])
+  @@unique([roleId, permissionId])
 }
 
 model rsvp {
-	id         String      @id @unique(map: "rsvp_id_uindex") @default(uuid())
-	name       String
-	eventUsers EventUser[]
-	createdAt  DateTime    @default(now()) @db.Timestamptz(0)
-	modifiedAt DateTime    @default(now()) @updatedAt @db.Timestamptz(0)
+  id         String      @id @unique(map: "rsvp_id_uindex") @default(uuid())
+  name       String
+  eventUsers EventUser[]
+  createdAt  DateTime    @default(now()) @db.Timestamptz(0)
+  modifiedAt DateTime    @default(now()) @updatedAt @db.Timestamptz(0)
 
-	@@unique([name])
+  @@unique([name])
 }
 
 model Session {
-	id           String   @id @unique(map: "session_id_uindex") @default(uuid())
-	sessionToken String   @unique
-	userId       String
-	user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-	expires      DateTime
+  id           String   @id @unique(map: "session_id_uindex") @default(uuid())
+  sessionToken String   @unique
+  expires      DateTime
+  userId       String
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Ticket {
+  id                String        @id @unique(map: "ticket_id_uindex") @default(uuid())
+  title             String
+  description       String
+  price             Float
+  maxPerPerson      Int
+  minPerPerson      Int
+  quantityAvailable Int
+  quantitySold      Int
+  startSaleDate     DateTime      @db.Timestamptz(0)
+  endSaleDate       DateTime      @db.Timestamptz(0)
+  published         Boolean
+  eventId           String
+  event             Event         @relation(fields: [eventId], references: [id], onDelete: Cascade)
+  ticketOrders      TicketOrder[]
+  createdAt         DateTime      @default(now()) @db.Timestamptz(0)
+  modifiedAt        DateTime      @default(now()) @updatedAt @db.Timestamptz(0)
+}
+
+model TicketOrder {
+  id         String   @id @unique(map: "ticket_order_id_uindex") @default(uuid())
+  ticketId   String
+  ticket     Ticket   @relation(fields: [ticketId], references: [id], onDelete: Cascade)
+  orderId    String
+  order      Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  quantity   Int
+  createdAt  DateTime @default(now()) @db.Timestamptz(0)
+  modifiedAt DateTime @default(now()) @updatedAt @db.Timestamptz(0)
+}
+
+model TicketStatus {
+  id         String   @id @unique(map: "ticket_status_id_uindex") @default(uuid())
+  name       String
+  createAt   DateTime @default(now()) @db.Timestamptz(0)
+  modifiedAt DateTime @default(now()) @updatedAt @db.Timestamptz(0)
 }
 
 model User {
-	id            String            @id @unique(map: "user_id_uindex") @default(uuid())
-	name          String
-	email         String
-	emailVerified DateTime?         @db.Timestamptz(0)
-	image         String?
-	birthdate     DateTime?         @db.Timestamptz(0)
-	phoneNumber   String?
-	lastSeen      DateTime?         @default(now())
-	roleId        String
-	role          Role              @relation(fields: [roleId], references: [id])
-	accounts      UserAccount[]
-	groups        GroupUser[]
-	groupBans     GroupBannedUser[]
-	events        EventUser[]
-	eventBans     EventBannedUser[]
-	sessions      Session[]
-	createdAt     DateTime          @default(now()) @db.Timestamptz(0)
-	modifiedAt    DateTime          @default(now()) @updatedAt @db.Timestamptz(0)
+  id                   String               @id @unique(map: "user_id_uindex") @default(uuid())
+  name                 String?
+  email                String
+  emailVerified        DateTime?            @db.Timestamptz(0)
+  image                String?
+  birthdate            DateTime?            @db.Timestamptz(0)
+  phoneNumber          String?
+  lastSeen             DateTime?            @default(now())
+  roleId               String?
+  role                 Role?                @relation(fields: [roleId], references: [id])
+  accounts             UserAccount[]
+  groups               GroupUser[]
+  groupBans            GroupBannedUser[]
+  events               EventUser[]
+  eventBans            EventBannedUser[]
+  sessions             Session[]
+  orders               Order[]
+  userBillingAddresses UserBillingAddress[]
+  createdAt            DateTime             @default(now()) @db.Timestamptz(0)
+  modifiedAt           DateTime             @default(now()) @updatedAt @db.Timestamptz(0)
 
-	@@unique([email])
-	@@index([email])
+  @@unique([email])
+  @@index([email])
 }
 
 model UserAccount {
-	id                String    @id @unique(map: "user_account_id_uindex") @default(uuid())
-	provider          String
-	providerAccountId String
-	refreshToken      String?
-	accessToken       String?
-	profile           Json?     @db.Json
-	expiresAt         DateTime?
-	tokenType         String?
-	scope             String?
-	idToken           String?
-	sessionState      String?
-	userId            String
-	user              User      @relation(fields: [userId], references: [id])
-	createdAt         DateTime  @default(now()) @db.Timestamptz(0)
-	modifiedAt        DateTime  @default(now()) @updatedAt @db.Timestamptz(0)
+  id                String    @id @unique(map: "user_account_id_uindex") @default(uuid())
+  provider          String
+  providerAccountId String
+  refreshToken      String?
+  accessToken       String?
+  profile           Json?     @db.Json
+  expiresAt         DateTime?
+  tokenType         String?
+  scope             String?
+  idToken           String?
+  sessionState      String?
+  userId            String
+  user              User      @relation(fields: [userId], references: [id])
+  createdAt         DateTime  @default(now()) @db.Timestamptz(0)
+  modifiedAt        DateTime  @default(now()) @updatedAt @db.Timestamptz(0)
 
-	@@unique([provider, providerAccountId])
+  @@unique([provider, providerAccountId])
+}
+
+model UserBillingAddress {
+  id         String   @id @unique(map: "user_billing_address_id_uindex") @default(uuid())
+  name       String
+  address    String
+  city       String
+  postalCode String
+  region     String
+  country    String
+  userId     String
+  user       User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now()) @db.Timestamptz(0)
+  modifiedAt DateTime @default(now()) @updatedAt @db.Timestamptz(0)
 }
 
 model Venue {
-	id            String   @id @unique(map: "venue_id_uindex") @default(uuid())
-	name          String
-	streetAddress String?
-	city          String
-	postalCode    String
-	region        String
-	country       String
-	latitude      Float?
-	longitude     Float?
-	group         Group    @relation(fields: [groupId], references: [id])
-	groupId       String
-	events        Event[]
-	createdAt     DateTime @default(now()) @db.Timestamptz(0)
-	modifiedAt    DateTime @default(now()) @updatedAt @db.Timestamptz(0)
+  id            String   @id @unique(map: "venue_id_uindex") @default(uuid())
+  name          String
+  streetAddress String?
+  city          String
+  postalCode    String
+  region        String
+  country       String
+  latitude      Float?
+  longitude     Float?
+  group         Group    @relation(fields: [groupId], references: [id])
+  groupId       String
+  events        Event[]
+  createdAt     DateTime @default(now()) @db.Timestamptz(0)
+  modifiedAt    DateTime @default(now()) @updatedAt @db.Timestamptz(0)
 
   @@unique([name])
 }
